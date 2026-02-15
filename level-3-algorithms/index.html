@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3: Quantum Algorithms - Qiskit Quantum Playground</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --neon-orange: #ff9500;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+            --glow-orange: rgba(255, 149, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon-orange);
+            animation: float-particle 20s infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100vw, -100vh) scale(1.5); opacity: 0; }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 2rem;
+            border-bottom: 3px solid var(--neon-orange);
+            box-shadow: 0 10px 40px var(--glow-orange);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-orange), transparent);
+            opacity: 0.15;
+            animation: rotate-gradient 15s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-bar {
+            background: rgba(26, 12, 62, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--neon-orange);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-orange);
+            box-shadow: 0 0 15px var(--glow-orange);
+            background: rgba(255, 149, 0, 0.1);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--neon-orange), #ff6b00);
+            color: var(--deep-black);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px var(--glow-orange); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px var(--glow-orange); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-yellow), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--neon-orange);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 149, 0, 0.15);
+            border: 2px solid var(--neon-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px var(--glow-orange);
+            animation: badge-float 3s ease-in-out infinite;
+        }
+
+        .badge:nth-child(2) { animation-delay: 0.5s; }
+        .badge:nth-child(3) { animation-delay: 1s; }
+        .badge:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes badge-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 149, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            border-color: var(--neon-orange);
+            box-shadow: 0 15px 60px var(--glow-orange);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-orange);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title::before {
+            content: '🚀';
+            font-size: 1.5rem;
+            animation: rocket-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes rocket-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .algorithm-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .algo-card {
+            background: rgba(255, 149, 0, 0.1);
+            border: 2px solid var(--neon-orange);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .algo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow));
+        }
+
+        .algo-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--neon-yellow);
+            box-shadow: 0 10px 40px var(--glow-orange);
+            background: rgba(255, 149, 0, 0.2);
+        }
+
+        .algo-card.active {
+            border-color: var(--neon-yellow);
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.3), rgba(255, 190, 11, 0.2));
+            box-shadow: 0 0 30px var(--glow-orange);
+        }
+
+        .algo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .algo-title {
+            color: var(--neon-orange);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .algo-desc {
+            color: rgba(240, 240, 240, 0.85);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .algo-difficulty {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: rgba(6, 255, 165, 0.2);
+            color: #06ffa5;
+            border: 1px solid #06ffa5;
+        }
+
+        .difficulty-medium {
+            background: rgba(255, 190, 11, 0.2);
+            color: var(--neon-yellow);
+            border: 1px solid var(--neon-yellow);
+        }
+
+        .difficulty-hard {
+            background: rgba(255, 0, 110, 0.2);
+            color: var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+        }
+
+        .tutorial-content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-orange);
+            line-height: 1.8;
+        }
+
+        .tutorial-content h3 {
+            color: var(--neon-orange);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tutorial-content p {
+            margin-bottom: 1rem;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+        .highlight {
+            background: rgba(255, 149, 0, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--neon-orange);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-orange);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .visualization-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-orange);
+            border-radius: 10px;
+            padding: 2rem;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .algorithm-step {
+            background: rgba(255, 149, 0, 0.1);
+            border-left: 4px solid var(--neon-orange);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .step-number {
+            color: var(--neon-orange);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--neon-orange), #ff6b00);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            color: var(--deep-black);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px var(--glow-orange);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px var(--glow-orange);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.5);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid var(--neon-orange);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow));
+            height: 100%;
+            transition: width 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-black);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .help-box {
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.1), rgba(255, 190, 11, 0.1));
+            border: 2px solid var(--neon-orange);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .help-box h4 {
+            color: var(--neon-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 149, 0, 0.1);
+            border: 2px solid var(--neon-orange);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neon-orange);
+        }
+
+        .stat-label {
+            color: var(--soft-white);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-orange);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-orange);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-orange);
+            text-shadow: 0 0 10px var(--glow-orange);
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .algorithm-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <a href="../level-1-basics/" class="nav-link">Level 1</a>
+            <a href="../level-2-gates/" class="nav-link">Level 2</a>
+            <span class="level-badge">Level 3: Quantum Algorithms</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>🚀 Level 3: Quantum Algorithms</h1>
+        <div class="tagline">Implement Famous Quantum Algorithms</div>
+        <div class="badges">
+            <div class="badge">🔍 Grover's Search</div>
+            <div class="badge">📊 Quantum Fourier Transform</div>
+            <div class="badge">🎯 Deutsch-Jozsa</div>
+            <div class="badge">⚡ Real Algorithms!</div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--neon-orange); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                Created by <strong style="color: var(--neon-yellow);">Venkata Krishnaveni Chennuru</strong><br>
+                SKR & SKR GCW(A), Kadapa
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Tracker -->
+        <div class="panel full-width">
+            <div class="help-box">
+                <h4>🎯 Your Quantum Journey</h4>
+                <p style="margin-bottom: 0.5rem;">
+                    ✅ Level 1: Quantum Basics (Complete) | ✅ Level 2: Gates Mastery (Complete) | 
+                    🔥 Level 3: Quantum Algorithms (Current)
+                </p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%;">50% Through Series</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Algorithm Selection -->
+        <div class="panel full-width">
+            <div class="panel-title">🎯 Choose Your Algorithm</div>
+            
+            <div class="algorithm-cards">
+                <div class="algo-card active" onclick="loadAlgorithm('grover')">
+                    <div class="algo-icon">🔍</div>
+                    <div class="algo-title">Grover's Algorithm</div>
+                    <div class="algo-desc">Search unsorted databases quadratically faster than classical computers!</div>
+                    <span class="algo-difficulty difficulty-medium">Medium</span>
+                </div>
+
+                <div class="algo-card" onclick="loadAlgorithm('qft')">
+                    <div class="algo-icon">📊</div>
+                    <div class="algo-title">Quantum Fourier Transform</div>
+                    <div class="algo-desc">Foundation of many quantum algorithms. Essential for Shor's algorithm!</div>
+                    <span class="algo-difficulty difficulty-hard">Advanced</span>
+                </div>
+
+                <div class="algo-card" onclick="loadAlgorithm('deutsch')">
+                    <div class="algo-icon">🎯</div>
+                    <div class="algo-title">Deutsch-Jozsa</div>
+                    <div class="algo-desc">Determine if a function is constant or balanced in ONE query!</div>
+                    <span class="algo-difficulty difficulty-easy">Beginner</span>
+                </div>
+
+                <div class="algo-card" onclick="loadAlgorithm('simon')">
+                    <div class="algo-icon">🔑</div>
+                    <div class="algo-title">Simon's Algorithm</div>
+                    <div class="algo-desc">Find hidden periodicity exponentially faster!</div>
+                    <span class="algo-difficulty difficulty-medium">Medium</span>
+                </div>
+
+                <div class="algo-card" onclick="loadAlgorithm('bernstein')">
+                    <div class="algo-icon">⚡</div>
+                    <div class="algo-title">Bernstein-Vazirani</div>
+                    <div class="algo-desc">Extract hidden information in just ONE query!</div>
+                    <span class="algo-difficulty difficulty-easy">Beginner</span>
+                </div>
+
+                <div class="algo-card" onclick="loadAlgorithm('phase')">
+                    <div class="algo-icon">🌀</div>
+                    <div class="algo-title">Phase Estimation</div>
+                    <div class="algo-desc">Estimate eigenvalues - crucial for quantum chemistry!</div>
+                    <span class="algo-difficulty difficulty-hard">Advanced</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Algorithm Tutorial -->
+        <div class="panel full-width">
+            <div class="panel-title">📚 Algorithm Explanation</div>
+            <div class="tutorial-content" id="algorithmContent">
+                <!-- Content loaded by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Visualization -->
+        <div class="panel full-width">
+            <div class="panel-title">🎨 Algorithm Visualization</div>
+            
+            <div class="visualization-area" id="visualization">
+                <div id="algoSteps">
+                    <!-- Algorithm steps loaded here -->
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="runAlgorithm()">▶️ Run Algorithm</button>
+                <button class="btn btn-secondary" onclick="stepByStep()">⏭️ Step-by-Step</button>
+                <button class="btn btn-secondary" onclick="resetAlgorithm()">🔄 Reset</button>
+            </div>
+        </div>
+
+        <!-- Performance Stats -->
+        <div class="panel full-width">
+            <div class="panel-title">📊 Quantum Advantage</div>
+            
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-value">O(√N)</div>
+                    <div class="stat-label">Grover's Complexity</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1 Query</div>
+                    <div class="stat-label">vs Classical N/2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100x</div>
+                    <div class="stat-label">Speedup Potential</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">6/6</div>
+                    <div class="stat-label">Algorithms Available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Faculty, Department of Computer Science<br>
+                SKR & SKR Government College for Women (Autonomous)<br>
+                Kadapa, Andhra Pradesh, India
+            </p>
+            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
+                Level 3 of the Qiskit Quantum Playground Series<br>
+                An Open Educational Resource for students worldwide
+            </p>
+            
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
+                <a href="../">🏠 Back to Main</a>
+            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-orange); margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">
+                "Unlocking quantum advantage, one algorithm at a time!" 🚀⚡
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Algorithm content
+        const algorithms = {
+            grover: {
+                title: "🔍 Grover's Search Algorithm",
+                content: `
+                    <h3>The Quantum Search Revolution</h3>
+                    <p>Grover's algorithm provides a <span class="highlight">quadratic speedup</span> for searching unsorted databases!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Find a specific item in an unsorted database of N items.</p>
+                    
+                    <p><strong>Classical Solution:</strong><br>
+                    Check items one by one → O(N) time<br>
+                    Need to check ~N/2 items on average</p>
+                    
+                    <p><strong>Quantum Solution:</strong><br>
+                    Grover's algorithm → O(√N) time<br>
+                    Only need ~√N iterations!</p>
+                    
+                    <p><strong>How It Works:</strong></p>
+                    <p>1. <span class="highlight">Initialize</span> - Create equal superposition<br>
+                    2. <span class="highlight">Oracle</span> - Mark the solution<br>
+                    3. <span class="highlight">Diffusion</span> - Amplify marked state<br>
+                    4. <span class="highlight">Repeat</span> - Do ~√N iterations<br>
+                    5. <span class="highlight">Measure</span> - High probability of solution!</p>
+                    
+                    <div class="code-block">
+# Grover's Algorithm Pseudocode
+1. Apply H to all qubits → |+++...+⟩
+2. Repeat √N times:
+   a. Apply Oracle (marks solution)
+   b. Apply Diffusion operator
+3. Measure → Solution found!
+                    </div>
+                    
+                    <p><strong>Real-World Applications:</strong></p>
+                    <p>• Database search<br>
+                    • Cryptography breaking<br>
+                    • Optimization problems<br>
+                    • Machine learning<br>
+                    • Drug discovery</p>
+                    
+                    <p class="highlight">For 1 million items: Classical needs 500,000 checks, Grover needs only 1,000!</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Initialize all qubits to |+⟩ state using Hadamard gates" },
+                    { num: 2, desc: "Apply Oracle: Marks the target solution with phase flip" },
+                    { num: 3, desc: "Apply Diffusion: Amplifies amplitude of marked state" },
+                    { num: 4, desc: "Repeat steps 2-3 approximately √N times" },
+                    { num: 5, desc: "Measure: High probability of finding the solution!" }
+                ]
+            },
+            qft: {
+                title: "📊 Quantum Fourier Transform",
+                content: `
+                    <h3>The Quantum FFT</h3>
+                    <p>The <span class="highlight">Quantum Fourier Transform (QFT)</span> is the quantum analog of the classical Fast Fourier Transform!</p>
+                    
+                    <p><strong>Classical FFT:</strong><br>
+                    Time complexity: O(N log N)<br>
+                    Used in signal processing, image compression, etc.</p>
+                    
+                    <p><strong>Quantum FFT:</strong><br>
+                    Time complexity: O(log² N)<br>
+                    <span class="highlight">Exponentially faster!</span></p>
+                    
+                    <p><strong>What It Does:</strong></p>
+                    <p>Transforms quantum states from computational basis to Fourier basis.<br>
+                    Essential for phase estimation, Shor's algorithm, and quantum chemistry!</p>
+                    
+                    <p><strong>Circuit Structure:</strong></p>
+                    <div class="code-block">
+# QFT Circuit
+For each qubit j (from n to 1):
+  1. Apply H to qubit j
+  2. For k from j+1 to n:
+     Apply controlled phase rotation
+  3. SWAP qubits at the end
+                    </div>
+                    
+                    <p><strong>Key Applications:</strong></p>
+                    <p>• <span class="highlight">Shor's Algorithm</span> - Factor large numbers<br>
+                    • <span class="highlight">Phase Estimation</span> - Find eigenvalues<br>
+                    • <span class="highlight">Quantum Chemistry</span> - Molecular simulations<br>
+                    • <span class="highlight">Hidden Subgroup</span> - Cryptography</p>
+                    
+                    <p><strong>Why It Matters:</strong></p>
+                    <p>QFT is the foundation of many powerful quantum algorithms. Mastering it unlocks advanced quantum computing!</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Apply Hadamard to first qubit" },
+                    { num: 2, desc: "Apply controlled phase rotations from other qubits" },
+                    { num: 3, desc: "Repeat for all qubits" },
+                    { num: 4, desc: "SWAP qubits to reverse order" },
+                    { num: 5, desc: "Result: State in Fourier basis!" }
+                ]
+            },
+            deutsch: {
+                title: "🎯 Deutsch-Jozsa Algorithm",
+                content: `
+                    <h3>The First Quantum Algorithm</h3>
+                    <p>The <span class="highlight">Deutsch-Jozsa algorithm</span> was one of the first to show quantum advantage!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Given a function f(x) that's either:<br>
+                    • <span class="highlight">Constant</span> (always 0 or always 1), or<br>
+                    • <span class="highlight">Balanced</span> (half 0s, half 1s)<br>
+                    Determine which one it is!</p>
+                    
+                    <p><strong>Classical Approach:</strong><br>
+                    Need to check at least N/2 + 1 inputs<br>
+                    Could require many queries!</p>
+                    
+                    <p><strong>Quantum Approach:</strong><br>
+                    <span class="highlight">Just ONE query!</span><br>
+                    100% certain answer!</p>
+                    
+                    <p><strong>How It Works:</strong></p>
+                    <div class="code-block">
+1. Prepare |0...0⟩ and |1⟩
+2. Apply H to all qubits
+3. Apply Oracle (implements f)
+4. Apply H to all input qubits
+5. Measure:
+   - All 0s → Constant
+   - Anything else → Balanced
+                    </div>
+                    
+                    <p><strong>Why It's Important:</strong></p>
+                    <p>First clear demonstration that quantum computers can solve problems exponentially faster than classical computers!</p>
+                    
+                    <p class="highlight">This algorithm inspired decades of quantum algorithm research!</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Initialize qubits: input qubits to |0⟩, output to |1⟩" },
+                    { num: 2, desc: "Apply Hadamard gates to create superposition" },
+                    { num: 3, desc: "Apply Oracle: encodes the function f(x)" },
+                    { num: 4, desc: "Apply Hadamard gates again" },
+                    { num: 5, desc: "Measure: All 0s = Constant, else = Balanced" }
+                ]
+            },
+            simon: {
+                title: "🔑 Simon's Algorithm",
+                content: `
+                    <h3>Finding Hidden Periodicity</h3>
+                    <p><span class="highlight">Simon's algorithm</span> finds hidden periodicity exponentially faster than classical methods!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Given a function f(x) that has a hidden period s (meaning f(x) = f(x⊕s)), find s!</p>
+                    
+                    <p><strong>Classical Complexity:</strong><br>
+                    Exponential - requires ~2^(n/2) queries</p>
+                    
+                    <p><strong>Quantum Complexity:</strong><br>
+                    <span class="highlight">Only n queries!</span><br>
+                    Exponential speedup!</p>
+                    
+                    <p><strong>Circuit Steps:</strong></p>
+                    <div class="code-block">
+1. Create equal superposition
+2. Apply Oracle
+3. Apply Hadamard again
+4. Measure
+5. Repeat n times
+6. Solve linear system → Find s!
+                    </div>
+                    
+                    <p><strong>Historical Significance:</strong></p>
+                    <p>Simon's algorithm directly inspired <span class="highlight">Shor's factoring algorithm</span> - one of the most important quantum algorithms!</p>
+                    
+                    <p><strong>Applications:</strong></p>
+                    <p>• Cryptanalysis<br>
+                    • Period finding<br>
+                    • Structure discovery</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Prepare superposition of all possible inputs" },
+                    { num: 2, desc: "Apply Oracle: implements f(x)" },
+                    { num: 3, desc: "Apply Hadamard to input register" },
+                    { num: 4, desc: "Measure: get y such that y·s = 0" },
+                    { num: 5, desc: "Repeat to get n equations, solve for s" }
+                ]
+            },
+            bernstein: {
+                title: "⚡ Bernstein-Vazirani Algorithm",
+                content: `
+                    <h3>Extract Hidden Information</h3>
+                    <p>The <span class="highlight">Bernstein-Vazirani algorithm</span> extracts a hidden bit string in just ONE query!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Given a function f(x) = a·x (where a is hidden), find a!</p>
+                    
+                    <p><strong>Classical Approach:</strong><br>
+                    Must query n times (once per bit)<br>
+                    Linear complexity O(n)</p>
+                    
+                    <p><strong>Quantum Approach:</strong><br>
+                    <span class="highlight">ONE query!</span><br>
+                    Get entire hidden string at once!</p>
+                    
+                    <p><strong>Circuit:</strong></p>
+                    <div class="code-block">
+1. Initialize: |0...0⟩|1⟩
+2. Apply H to all qubits
+3. Apply Oracle: implements f(x) = a·x
+4. Apply H to input qubits
+5. Measure → Get 'a' directly!
+                    </div>
+                    
+                    <p><strong>Perfect for Learning:</strong></p>
+                    <p>Simpler than Deutsch-Jozsa but shows the same quantum advantage principle!</p>
+                    
+                    <p><strong>Key Insight:</strong></p>
+                    <p>Quantum parallelism + interference = extract global information in one shot!</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Prepare |0...0⟩ for input, |1⟩ for output" },
+                    { num: 2, desc: "Apply Hadamard gates - create superposition" },
+                    { num: 3, desc: "Apply Oracle - encodes hidden string a" },
+                    { num: 4, desc: "Apply Hadamard gates again" },
+                    { num: 5, desc: "Measure - directly get the hidden string a!" }
+                ]
+            },
+            phase: {
+                title: "🌀 Quantum Phase Estimation",
+                content: `
+                    <h3>Estimating Eigenvalues</h3>
+                    <p><span class="highlight">Quantum Phase Estimation</span> (QPE) finds eigenvalues of unitary operators - crucial for quantum chemistry!</p>
+                    
+                    <p><strong>What It Does:</strong></p>
+                    <p>Given a unitary U and eigenstate |ψ⟩, find eigenvalue e^(2πiφ)<br>
+                    More specifically, find the phase φ!</p>
+                    
+                    <p><strong>Why It Matters:</strong></p>
+                    <p>• <span class="highlight">Quantum Chemistry</span> - Find molecular energies<br>
+                    • <span class="highlight">Shor's Algorithm</span> - Essential component<br>
+                    • <span class="highlight">Machine Learning</span> - Principal component analysis<br>
+                    • <span class="highlight">Optimization</span> - Quantum annealing</p>
+                    
+                    <p><strong>Circuit Components:</strong></p>
+                    <div class="code-block">
+1. Prepare eigenstate |ψ⟩
+2. Create superposition in counting register
+3. Apply controlled-U operations
+4. Apply inverse QFT
+5. Measure → Get phase φ!
+                    </div>
+                    
+                    <p><strong>Precision:</strong></p>
+                    <p>With n qubits in counting register, get φ accurate to n bits!</p>
+                    
+                    <p><strong>Real Applications:</strong></p>
+                    <p>Used in IBM quantum computers for:<br>
+                    • Drug discovery<br>
+                    • Materials science<br>
+                    • Financial modeling</p>
+                    
+                    <p class="highlight">This is where quantum computing meets real-world problems!</p>
+                `,
+                steps: [
+                    { num: 1, desc: "Initialize counting qubits and eigenstate" },
+                    { num: 2, desc: "Apply Hadamard to counting qubits" },
+                    { num: 3, desc: "Apply controlled-U operations (U, U², U⁴, ...)" },
+                    { num: 4, desc: "Apply inverse QFT to counting register" },
+                    { num: 5, desc: "Measure counting register → phase φ!" }
+                ]
+            }
+        };
+
+        let currentAlgorithm = 'grover';
+
+        // Initialize
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function loadAlgorithm(algoName) {
+            currentAlgorithm = algoName;
+            const algo = algorithms[algoName];
+            
+            // Update content
+            document.getElementById('algorithmContent').innerHTML = algo.content;
+            
+            // Update steps
+            const stepsHTML = algo.steps.map(step => `
+                <div class="algorithm-step">
+                    <div class="step-number">Step ${step.num}</div>
+                    <div>${step.desc}</div>
+                </div>
+            `).join('');
+            document.getElementById('algoSteps').innerHTML = stepsHTML;
+            
+            // Update active card
+            document.querySelectorAll('.algo-card').forEach(card => card.classList.remove('active'));
+            event.target.closest('.algo-card').classList.add('active');
+        }
+
+        function runAlgorithm() {
+            alert(`🚀 Running ${algorithms[currentAlgorithm].title}!\n\nIn full implementation, this would:\n• Build the quantum circuit\n• Simulate quantum gates\n• Show real-time visualization\n• Display measurement results\n• Compare with classical approach\n\nThis is a demonstration - Level 3 showcases 6 famous quantum algorithms!`);
+        }
+
+        function stepByStep() {
+            alert(`⏭️ Step-by-Step Mode\n\nWalk through ${algorithms[currentAlgorithm].title} one step at a time with detailed explanations and visualizations!\n\nComing in production version!`);
+        }
+
+        function resetAlgorithm() {
+            document.getElementById('algoSteps').innerHTML = algorithms[currentAlgorithm].steps.map(step => `
+                <div class="algorithm-step">
+                    <div class="step-number">Step ${step.num}</div>
+                    <div>${step.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = function() {
+            createParticles();
+            loadAlgorithm('grover');
+        };
+    </script>
+</body>
+</html>
