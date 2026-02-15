@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: Qiskit Quantum Playground
+message: If you use this project, please cite it.
+authors:
+  - family-names: Chennuru
+    given-names: Venkata Krishnaveni
+license: MIT
+version: 1.0
