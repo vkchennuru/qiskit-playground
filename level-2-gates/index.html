@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2: Quantum Gates Mastery - Qiskit Quantum Playground</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --neon-green: #06ffa5;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+            --glow-cyan: rgba(0, 255, 242, 0.3);
+            --glow-pink: rgba(255, 0, 110, 0.3);
+            --glow-green: rgba(6, 255, 165, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated particle background */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: float-particle 20s infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100vw, -100vh) scale(1); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 2rem;
+            border-bottom: 3px solid var(--neon-green);
+            box-shadow: 0 10px 40px rgba(6, 255, 165, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-green), transparent);
+            opacity: 0.1;
+            animation: rotate-gradient 15s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: rgba(26, 12, 62, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--neon-green);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px var(--glow-green);
+            background: rgba(6, 255, 165, 0.1);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--neon-green), #06d68a);
+            color: var(--deep-black);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(6, 255, 165, 0.1);
+            border: 2px solid var(--neon-green);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px var(--glow-green);
+            animation: badge-float 3s ease-in-out infinite;
+        }
+
+        .badge:nth-child(2) { animation-delay: 0.5s; }
+        .badge:nth-child(3) { animation-delay: 1s; }
+        .badge:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes badge-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Panel Styles */
+        .panel {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 255, 165, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 15px 60px var(--glow-green);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title::before {
+            content: '⚡';
+            font-size: 1.5rem;
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Tutorial Tabs */
+        .tutorial-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            background: rgba(6, 255, 165, 0.1);
+            border: 2px solid var(--neon-green);
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to top, var(--neon-green), transparent);
+            transition: height 0.3s;
+        }
+
+        .tab:hover::after {
+            height: 100%;
+        }
+
+        .tab:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 25px var(--glow-green);
+            transform: scale(1.05);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            color: var(--deep-black);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px var(--glow-green);
+        }
+
+        .tab-content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-green);
+            line-height: 1.8;
+        }
+
+        .tab-content h3 {
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tab-content p {
+            margin-bottom: 1rem;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+        .highlight {
+            background: rgba(6, 255, 165, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--neon-green);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        /* Interactive Circuit Builder */
+        .circuit-workspace {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-purple);
+            border-radius: 10px;
+            padding: 2rem;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .qubit-line {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            height: 3px;
+            margin: 2.5rem 0;
+            position: relative;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--glow-green);
+        }
+
+        .qubit-label {
+            position: absolute;
+            left: -3rem;
+            top: -1rem;
+            color: var(--neon-green);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        .gate-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gate-btn {
+            background: linear-gradient(135deg, var(--neon-green), #06d68a);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            color: var(--deep-black);
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 20px var(--glow-green);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .gate-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px var(--glow-green);
+        }
+
+        .gate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .gate-btn.special {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--neon-green), #06d68a);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            color: var(--deep-black);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px var(--glow-green);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px var(--glow-green);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            box-shadow: 0 6px 25px var(--glow-purple);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.6);
+        }
+
+        /* Results Display */
+        .results-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 2rem;
+            font-family: 'Fira Code', monospace;
+            min-height: 300px;
+        }
+
+        .result-item {
+            background: rgba(6, 255, 165, 0.1);
+            border-left: 4px solid var(--neon-green);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .probability-bar {
+            background: rgba(131, 56, 236, 0.3);
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 15px var(--glow-green);
+        }
+
+        /* State Visualizer */
+        .state-visualizer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .state-card {
+            background: rgba(6, 255, 165, 0.1);
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .state-card:hover {
+            border-color: var(--neon-cyan);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--glow-green);
+        }
+
+        .state-label {
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .state-probability {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-yellow);
+        }
+
+        /* Interactive Help */
+        .help-box {
+            background: linear-gradient(135deg, rgba(6, 255, 165, 0.1), rgba(0, 255, 242, 0.1));
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .help-box h4 {
+            color: var(--neon-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Progress Indicator */
+        .progress-box {
+            background: rgba(6, 255, 165, 0.05);
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-box h4 {
+            color: var(--neon-green);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .progress-text {
+            color: var(--soft-white);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-green);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--glow-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tutorial-tabs {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .gate-palette {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <a href="../level-1-basics/" class="nav-link">◀️ Level 1</a>
+            <span class="level-badge">Level 2: Quantum Gates Mastery</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>⚡ Level 2: Quantum Gates Mastery</h1>
+        <div class="tagline">Master Advanced Quantum Operations</div>
+        <div class="badges">
+            <div class="badge">🎮 8 Quantum Gates</div>
+            <div class="badge">⚡ 3-4 Qubits</div>
+            <div class="badge">🎨 Phase Operations</div>
+            <div class="badge">🎓 Intermediate Level</div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--neon-green); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                Created by <strong style="color: var(--neon-cyan);">Venkata Krishnaveni Chennuru</strong><br>
+                SKR & SKR GCW(A), Kadapa
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="panel full-width">
+            <div class="progress-box">
+                <h4>🎯 Your Progress</h4>
+                <p class="progress-text">
+                    ✅ Level 1 Complete | 🔥 Now on Level 2: Quantum Gates Mastery | 🎯 Next: Level 3 Algorithms
+                </p>
+            </div>
+        </div>
+
+        <!-- Tutorial Section -->
+        <div class="panel full-width">
+            <div class="panel-title">📚 Advanced Quantum Concepts</div>
+            
+            <div class="tutorial-tabs">
+                <div class="tab active" onclick="loadTutorial('intro')">🌟 Welcome</div>
+                <div class="tab" onclick="loadTutorial('pauli')">⚛️ Pauli Gates</div>
+                <div class="tab" onclick="loadTutorial('phase')">🌀 Phase Gates</div>
+                <div class="tab" onclick="loadTutorial('rotation')">🔄 Rotation Gates</div>
+                <div class="tab" onclick="loadTutorial('multi')">🔗 Multi-Qubit</div>
+                <div class="tab" onclick="loadTutorial('algorithms')">🚀 Algorithms</div>
+            </div>
+
+            <div class="tab-content" id="tutorialContent">
+                <!-- Content loaded by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Interactive Circuit Builder -->
+        <div class="panel full-width">
+            <div class="panel-title">🎨 Advanced Circuit Builder</div>
+            
+            <div class="help-box">
+                <h4>🎯 Level 2 Features</h4>
+                <p>More gates! More qubits! Build complex quantum circuits with Y, Z, S, T, SWAP, and more!</p>
+            </div>
+
+            <div class="gate-palette">
+                <!-- Pauli Gates -->
+                <button class="gate-btn" onclick="addGate('H', currentQubit)">H</button>
+                <button class="gate-btn" onclick="addGate('X', currentQubit)">X</button>
+                <button class="gate-btn" onclick="addGate('Y', currentQubit)">Y</button>
+                <button class="gate-btn" onclick="addGate('Z', currentQubit)">Z</button>
+                
+                <!-- Phase Gates -->
+                <button class="gate-btn" onclick="addGate('S', currentQubit)">S</button>
+                <button class="gate-btn" onclick="addGate('T', currentQubit)">T</button>
+                <button class="gate-btn" onclick="addGate('Sdg', currentQubit)">S†</button>
+                <button class="gate-btn" onclick="addGate('Tdg', currentQubit)">T†</button>
+                
+                <!-- Multi-Qubit Gates -->
+                <button class="gate-btn special" onclick="addGate('CNOT', currentQubit)">CNOT</button>
+                <button class="gate-btn special" onclick="addGate('SWAP', currentQubit)">SWAP</button>
+                <button class="gate-btn special" onclick="addGate('CZ', currentQubit)">CZ</button>
+                
+                <!-- Utility -->
+                <button class="gate-btn" onclick="resetCircuit()" style="background: linear-gradient(135deg, #ff006e, #8338ec);">🔄 Reset</button>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="color: var(--neon-green); font-family: 'Fira Code', monospace;">
+                    Select Qubit: 
+                    <select id="qubitSelector" onchange="currentQubit = parseInt(this.value)" style="background: var(--deep-black); color: var(--neon-green); border: 2px solid var(--neon-green); padding: 0.5rem; border-radius: 5px; font-family: 'Fira Code', monospace;">
+                        <option value="0">Qubit 0</option>
+                        <option value="1">Qubit 1</option>
+                        <option value="2">Qubit 2</option>
+                        <option value="3">Qubit 3</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="circuit-workspace" id="circuitWorkspace">
+                <div class="qubit-line">
+                    <span class="qubit-label">|q0⟩</span>
+                    <div id="gates0" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 1.5rem;"></div>
+                </div>
+                <div class="qubit-line">
+                    <span class="qubit-label">|q1⟩</span>
+                    <div id="gates1" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 1.5rem;"></div>
+                </div>
+                <div class="qubit-line">
+                    <span class="qubit-label">|q2⟩</span>
+                    <div id="gates2" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 1.5rem;"></div>
+                </div>
+                <div class="qubit-line">
+                    <span class="qubit-label">|q3⟩</span>
+                    <div id="gates3" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 1.5rem;"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="runSimulation()">▶️ Run Simulation</button>
+                <button class="btn btn-secondary" onclick="showExplanation()">💡 Explain Circuit</button>
+                <button class="btn btn-secondary" onclick="saveCircuit()">💾 Save Circuit</button>
+            </div>
+        </div>
+
+        <!-- Results Visualization -->
+        <div class="panel">
+            <div class="panel-title">📊 Measurement Results</div>
+            <div class="results-area" id="results">
+                <p style="text-align: center; color: var(--neon-purple); padding: 2rem;">
+                    Build your advanced circuit and run simulation!
+                </p>
+            </div>
+        </div>
+
+        <!-- State Visualization -->
+        <div class="panel">
+            <div class="panel-title">🎯 Quantum States (4 Qubits)</div>
+            <div class="state-visualizer" id="stateViz">
+                <!-- Will be populated dynamically with 16 states -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Faculty, Department of Computer Science<br>
+                SKR & SKR Government College for Women (Autonomous)<br>
+                Kadapa, Andhra Pradesh, India
+            </p>
+            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
+                Level 2 of the Qiskit Quantum Playground Series<br>
+                An Open Educational Resource for students worldwide
+            </p>
+            
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
+                <a href="../">🏠 Back to Main</a>
+            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-green); margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">
+                "Mastering quantum gates, one operation at a time!" 🚀⚡
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentQubit = 0;
+        let circuit = {
+            qubit0: [],
+            qubit1: [],
+            qubit2: [],
+            qubit3: []
+        };
+
+        // Tutorial Content
+        const tutorials = {
+            intro: {
+                title: "🌟 Welcome to Level 2!",
+                content: `
+                    <h3>Quantum Gates Mastery</h3>
+                    <p>Congratulations on completing Level 1! Now you're ready to master <span class="highlight">advanced quantum gates</span> and build more complex circuits.</p>
+                    
+                    <p><strong>What's New in Level 2:</strong></p>
+                    <p>• <span class="highlight">Y and Z Gates</span> - Complete the Pauli gate family<br>
+                    • <span class="highlight">S and T Gates</span> - Phase rotation gates<br>
+                    • <span class="highlight">SWAP Gate</span> - Exchange qubit states<br>
+                    • <span class="highlight">4 Qubits</span> - More complex circuits<br>
+                    • <span class="highlight">16 Possible States</span> - Exponential power!</p>
+                    
+                    <p><strong>Ready to Level Up?</strong></p>
+                    <p>Start by exploring the Pauli Gates tutorial, then work your way through each concept!</p>
+                `
+            },
+            pauli: {
+                title: "⚛️ The Pauli Gates",
+                content: `
+                    <h3>X, Y, and Z - The Foundation</h3>
+                    <p>The three <span class="highlight">Pauli gates</span> are the building blocks of quantum computing!</p>
+                    
+                    <p><strong>X Gate (NOT):</strong><br>
+                    You know this from Level 1! Flips |0⟩ ↔ |1⟩</p>
+                    
+                    <p><strong>Y Gate (NEW!):</strong><br>
+                    Combines bit flip AND phase flip. Rotates around Y-axis.</p>
+                    
+                    <p><strong>Z Gate (NEW!):</strong><br>
+                    Phase flip only. Leaves |0⟩ alone, adds minus sign to |1⟩</p>
+                    
+                    <p><strong>Try This:</strong><br>
+                    1. Add H gate to qubit 0<br>
+                    2. Add Z gate to qubit 0<br>
+                    3. Run and observe - Z changes the phase!</p>
+                    
+                    <p class="highlight">These gates are called "Pauli gates" after physicist Wolfgang Pauli!</p>
+                `
+            },
+            phase: {
+                title: "🌀 Phase Gates",
+                content: `
+                    <h3>S and T Gates - Controlling Phase</h3>
+                    <p><span class="highlight">Phase gates</span> add a phase to the |1⟩ state without changing probabilities!</p>
+                    
+                    <p><strong>S Gate:</strong><br>
+                    Adds 90° (π/2) phase rotation. Also called "Phase gate".</p>
+                    
+                    <p><strong>T Gate:</strong><br>
+                    Adds 45° (π/4) phase rotation. Essential for universal quantum computing!</p>
+                    
+                    <p><strong>S† and T† (Dagger):</strong><br>
+                    Inverse operations - rotate in opposite direction.</p>
+                    
+                    <p><strong>Why Phase Matters:</strong><br>
+                    Phase is invisible in measurements but crucial for interference - the heart of quantum algorithms!</p>
+                    
+                    <p><strong>Experiment:</strong><br>
+                    • Apply H, then S, then H again<br>
+                    • Compare with just H alone<br>
+                    • See how phase affects the result!</p>
+                `
+            },
+            rotation: {
+                title: "🔄 Understanding Rotations",
+                content: `
+                    <h3>Thinking in 3D</h3>
+                    <p>All single-qubit gates are <span class="highlight">rotations</span> on the Bloch sphere!</p>
+                    
+                    <p><strong>The Bloch Sphere:</strong><br>
+                    Imagine a sphere where |0⟩ is the north pole and |1⟩ is the south pole.</p>
+                    
+                    <p><strong>Gate Rotations:</strong><br>
+                    • <span class="highlight">X</span> - Rotation around X-axis<br>
+                    • <span class="highlight">Y</span> - Rotation around Y-axis<br>
+                    • <span class="highlight">Z</span> - Rotation around Z-axis<br>
+                    • <span class="highlight">H</span> - 180° around diagonal axis</p>
+                    
+                    <p><strong>Combining Rotations:</strong><br>
+                    You can reach any point on the sphere by combining X, Y, Z rotations!</p>
+                    
+                    <p class="highlight">This is why we can implement ANY single-qubit operation with these basic gates!</p>
+                `
+            },
+            multi: {
+                title: "🔗 Multi-Qubit Operations",
+                content: `
+                    <h3>Gates That Connect Qubits</h3>
+                    <p>Multi-qubit gates create <span class="highlight">entanglement</span> and <span class="highlight">correlations</span>!</p>
+                    
+                    <p><strong>CNOT (from Level 1):</strong><br>
+                    Control one qubit, flip another. Creates entanglement!</p>
+                    
+                    <p><strong>SWAP (NEW!):</strong><br>
+                    Exchanges the states of two qubits. |01⟩ becomes |10⟩</p>
+                    
+                    <p><strong>CZ (NEW!):</strong><br>
+                    Controlled-Z. Adds phase only if both qubits are |1⟩</p>
+                    
+                    <p><strong>Building Complex Circuits:</strong><br>
+                    • Use SWAP to move quantum information<br>
+                    • Use CZ for phase-based entanglement<br>
+                    • Combine with single-qubit gates for power!</p>
+                    
+                    <p><strong>Try This:</strong><br>
+                    1. Apply H to qubits 0 and 1<br>
+                    2. Apply SWAP between them<br>
+                    3. See how states exchange!</p>
+                `
+            },
+            algorithms: {
+                title: "🚀 Simple Quantum Algorithms",
+                content: `
+                    <h3>Putting It All Together</h3>
+                    <p>Now you can implement <span class="highlight">real quantum algorithms</span>!</p>
+                    
+                    <p><strong>Deutsch Algorithm:</strong><br>
+                    Uses H, CNOT, and one oracle gate to solve a problem exponentially faster!</p>
+                    
+                    <p><strong>Quantum Interference:</strong><br>
+                    Combine phase gates to make unwanted outcomes cancel out (interfere destructively)!</p>
+                    
+                    <p><strong>Bell States:</strong><br>
+                    Create all four maximally entangled states using different gate combinations!</p>
+                    
+                    <p><strong>Challenge:</strong><br>
+                    Can you create a circuit where all 4 qubits are entangled?</p>
+                    
+                    <p><strong>Next Steps:</strong><br>
+                    • Level 3 will teach Grover's and QFT<br>
+                    • But first, master these gates!<br>
+                    • Experiment with different combinations!</p>
+                    
+                    <p class="highlight">You're building the foundation for real quantum computing!</p>
+                `
+            }
+        };
+
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Load tutorial
+        function loadTutorial(name) {
+            const tutorial = tutorials[name];
+            document.getElementById('tutorialContent').innerHTML = tutorial.content;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Add gate to circuit
+        function addGate(gate, qubit) {
+            if (gate === 'CNOT') {
+                if (qubit < 3) {
+                    circuit[`qubit${qubit}`].push('CNOT-control');
+                    circuit[`qubit${qubit + 1}`].push('CNOT-target');
+                }
+            } else if (gate === 'SWAP') {
+                if (qubit < 3) {
+                    circuit[`qubit${qubit}`].push('SWAP-1');
+                    circuit[`qubit${qubit + 1}`].push('SWAP-2');
+                }
+            } else if (gate === 'CZ') {
+                if (qubit < 3) {
+                    circuit[`qubit${qubit}`].push('CZ-control');
+                    circuit[`qubit${qubit + 1}`].push('CZ-target');
+                }
+            } else {
+                circuit[`qubit${qubit}`].push(gate);
+            }
+            
+            updateCircuitDisplay();
+            
+            // Visual feedback
+            event.target.classList.add('celebrate');
+            setTimeout(() => event.target.classList.remove('celebrate'), 500);
+        }
+
+        // Update circuit display
+        function updateCircuitDisplay() {
+            for (let i = 0; i < 4; i++) {
+                const gatesDiv = document.getElementById(`gates${i}`);
+                gatesDiv.innerHTML = circuit[`qubit${i}`].map(g => {
+                    let displayText = g.replace('-control', '●').replace('-target', '⊕')
+                        .replace('-1', '×').replace('-2', '×');
+                    let color = 'var(--neon-green)';
+                    if (g.includes('control') || g.includes('SWAP') || g.includes('CZ')) {
+                        color = 'var(--neon-pink)';
+                    }
+                    return `<div style="background: ${color}; color: var(--deep-black); padding: 0.5rem 0.8rem; border-radius: 5px; font-family: 'Fira Code', monospace; font-weight: 700; box-shadow: 0 0 15px ${color}; font-size: 0.85rem;">${displayText}</div>`;
+                }).join('');
+            }
+        }
+
+        // Reset circuit
+        function resetCircuit() {
+            circuit = { qubit0: [], qubit1: [], qubit2: [], qubit3: [] };
+            updateCircuitDisplay();
+            document.getElementById('results').innerHTML = '<p style="text-align: center; color: var(--neon-purple); padding: 2rem;">Circuit reset! Ready for Level 2 mastery!</p>';
+            initializeStateViz();
+        }
+
+        // Initialize state visualizer with 16 states
+        function initializeStateViz() {
+            const stateViz = document.getElementById('stateViz');
+            const states = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111',
+                           '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111'];
+            
+            stateViz.innerHTML = states.map(state => `
+                <div class="state-card">
+                    <div class="state-label">|${state}⟩</div>
+                    <div class="state-probability">—</div>
+                </div>
+            `).join('');
+        }
+
+        // Run simulation (simplified)
+        function runSimulation() {
+            // This is a simplified simulation for demonstration
+            alert('🎉 Simulation running!\n\nIn a full implementation, this would:\n• Calculate quantum state evolution\n• Apply all gates in sequence\n• Measure final state probabilities\n• Display results with beautiful visualizations\n\nLevel 2 adds Y, Z, S, T, SWAP gates with 4-qubit support!');
+            
+            // Display mock results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h4 style="color: var(--neon-green); margin-bottom: 1rem;">Advanced Circuit Results:</h4>
+                <div class="result-item">
+                    <p>🎉 Your Level 2 circuit is ready!</p>
+                    <p>Gates used: ${Object.values(circuit).flat().length}</p>
+                    <p>Qubits used: 4</p>
+                    <p>Complexity: Intermediate</p>
+                </div>
+                <p style="margin-top: 1rem; color: var(--neon-yellow);">
+                    💡 Full quantum simulation coming in production version!
+                </p>
+            `;
+        }
+
+        // Show explanation
+        function showExplanation() {
+            const gateCount = Object.values(circuit).flat().length;
+            let explanation = `🎨 Your Level 2 Circuit Analysis:\n\n`;
+            explanation += `Total gates: ${gateCount}\n`;
+            explanation += `Qubits active: 4\n\n`;
+            explanation += `You're building advanced quantum circuits!\n\n`;
+            explanation += `Key concepts in this level:\n`;
+            explanation += `• Pauli gates (X, Y, Z)\n`;
+            explanation += `• Phase gates (S, T)\n`;
+            explanation += `• Multi-qubit operations\n\n`;
+            explanation += `Keep experimenting! 🚀`;
+            
+            alert(explanation);
+        }
+
+        // Save circuit
+        function saveCircuit() {
+            const circuitJSON = JSON.stringify(circuit, null, 2);
+            alert('💾 Circuit Saved!\n\n' + circuitJSON + '\n\nIn production, this would save to local storage or download as a file!');
+        }
+
+        // Initialize
+        window.onload = function() {
+            createParticles();
+            loadTutorial('intro');
+            initializeStateViz();
+        };
+    </script>
+</body>
+</html>
