@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qiskit Quantum Playground - Interactive Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+            --glow-cyan: rgba(0, 255, 242, 0.3);
+            --glow-pink: rgba(255, 0, 110, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated particle background */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: float-particle 20s infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100vw, -100vh) scale(1); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 2rem;
+            border-bottom: 3px solid var(--neon-cyan);
+            box-shadow: 0 10px 40px rgba(0, 255, 242, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-pink), transparent);
+            opacity: 0.1;
+            animation: rotate-gradient 15s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--glow-cyan);
+            margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--neon-yellow);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(0, 255, 242, 0.1);
+            border: 2px solid var(--neon-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px var(--glow-cyan);
+            animation: badge-float 3s ease-in-out infinite;
+        }
+
+        .badge:nth-child(2) { animation-delay: 0.5s; }
+        .badge:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes badge-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Panel Styles */
+        .panel {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 242, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 15px 60px var(--glow-cyan);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title::before {
+            content: '⚛️';
+            font-size: 1.5rem;
+            animation: spin-icon 4s linear infinite;
+        }
+
+        @keyframes spin-icon {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Tutorial Tabs */
+        .tutorial-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            background: rgba(131, 56, 236, 0.2);
+            border: 2px solid var(--neon-purple);
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to top, var(--neon-cyan), transparent);
+            transition: height 0.3s;
+        }
+
+        .tab:hover::after {
+            height: 100%;
+        }
+
+        .tab:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 25px var(--glow-cyan);
+            transform: scale(1.05);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            color: var(--deep-black);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px var(--glow-cyan);
+        }
+
+        .tab-content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-pink);
+            line-height: 1.8;
+        }
+
+        .tab-content h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tab-content p {
+            margin-bottom: 1rem;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+        .highlight {
+            background: rgba(255, 190, 11, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--neon-yellow);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        /* Interactive Circuit Builder */
+        .circuit-workspace {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-purple);
+            border-radius: 10px;
+            padding: 2rem;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .qubit-line {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            height: 3px;
+            margin: 3rem 0;
+            position: relative;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--glow-cyan);
+        }
+
+        .qubit-label {
+            position: absolute;
+            left: -3rem;
+            top: -1rem;
+            color: var(--neon-cyan);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        .gate-palette {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .gate-btn {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px var(--glow-pink);
+            transition: all 0.3s ease;
+        }
+
+        .gate-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px var(--glow-pink);
+        }
+
+        .gate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--neon-yellow), #fb5607);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            color: var(--deep-black);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(255, 190, 11, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(255, 190, 11, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            box-shadow: 0 6px 25px var(--glow-purple);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.6);
+        }
+
+        /* Results Display */
+        .results-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 10px;
+            padding: 2rem;
+            font-family: 'Fira Code', monospace;
+            min-height: 300px;
+        }
+
+        .result-item {
+            background: rgba(0, 255, 242, 0.1);
+            border-left: 4px solid var(--neon-cyan);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .probability-bar {
+            background: rgba(131, 56, 236, 0.3);
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 15px var(--glow-cyan);
+        }
+
+        /* State Visualizer */
+        .state-visualizer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .state-card {
+            background: rgba(131, 56, 236, 0.2);
+            border: 2px solid var(--neon-purple);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .state-card:hover {
+            border-color: var(--neon-cyan);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--glow-cyan);
+        }
+
+        .state-label {
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .state-probability {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-yellow);
+        }
+
+        /* Interactive Help */
+        .help-box {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(131, 56, 236, 0.1));
+            border: 2px solid var(--neon-pink);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .help-box h4 {
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tutorial-tabs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .pulse {
+            animation: pulse-anim 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-anim {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Success Animation */
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>⚛️ Quantum Playground</h1>
+        <div class="tagline">Interactive Quantum Computing Lab</div>
+        <div class="badges">
+            <div class="badge">🎮 Instant Simulation</div>
+            <div class="badge">🎨 Visual Learning</div>
+            <div class="badge">🚀 No Setup Required</div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--neon-yellow); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                Created by <strong style="color: var(--neon-cyan);">Venkata Krishnaveni Chennuru</strong> | 
+                <a href="https://github.com/YOUR-USERNAME/qiskit-playground" target="_blank" style="color: var(--neon-pink); text-decoration: none;">View on GitHub ⭐</a>
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Tutorial Section -->
+        <div class="panel full-width">
+            <div class="panel-title">📚 Learn Quantum Computing</div>
+            
+            <div class="tutorial-tabs">
+                <div class="tab active" onclick="loadTutorial('intro')">🌟 Start Here</div>
+                <div class="tab" onclick="loadTutorial('superposition')">🎲 Superposition</div>
+                <div class="tab" onclick="loadTutorial('entanglement')">🔗 Entanglement</div>
+                <div class="tab" onclick="loadTutorial('gates')">⚡ Gates</div>
+                <div class="tab" onclick="loadTutorial('advanced')">🚀 Advanced</div>
+            </div>
+
+            <div class="tab-content" id="tutorialContent">
+                <!-- Content loaded by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Interactive Circuit Builder -->
+        <div class="panel full-width">
+            <div class="panel-title">🎨 Build Your Circuit</div>
+            
+            <div class="help-box">
+                <h4>🎯 How to Use</h4>
+                <p>Click gates below to add them to your circuit, then click "Run Simulation" to see results!</p>
+            </div>
+
+            <div class="gate-palette">
+                <button class="gate-btn" onclick="addGate('H', 0)">H Gate (Superposition)</button>
+                <button class="gate-btn" onclick="addGate('X', 0)">X Gate (NOT)</button>
+                <button class="gate-btn" onclick="addGate('CNOT', 0)">CNOT Gate</button>
+                <button class="gate-btn" onclick="resetCircuit()">🔄 Reset</button>
+            </div>
+
+            <div class="circuit-workspace" id="circuitWorkspace">
+                <div class="qubit-line">
+                    <span class="qubit-label">|0⟩</span>
+                    <div id="gates0" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 2rem;"></div>
+                </div>
+                <div class="qubit-line">
+                    <span class="qubit-label">|1⟩</span>
+                    <div id="gates1" style="position: absolute; left: 5rem; top: -1.5rem; display: flex; gap: 2rem;"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="runSimulation()">▶️ Run Simulation</button>
+                <button class="btn btn-secondary" onclick="showExplanation()">💡 Explain Results</button>
+            </div>
+        </div>
+
+        <!-- Results Visualization -->
+        <div class="panel">
+            <div class="panel-title">📊 Measurement Results</div>
+            <div class="results-area" id="results">
+                <p style="text-align: center; color: var(--neon-purple); padding: 2rem;">
+                    Build a circuit and run it to see results!
+                </p>
+            </div>
+        </div>
+
+        <!-- State Visualization -->
+        <div class="panel">
+            <div class="panel-title">🎯 Quantum States</div>
+            <div class="state-visualizer" id="stateViz">
+                <div class="state-card">
+                    <div class="state-label">|00⟩</div>
+                    <div class="state-probability">—</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-label">|01⟩</div>
+                    <div class="state-probability">—</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-label">|10⟩</div>
+                    <div class="state-probability">—</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-label">|11⟩</div>
+                    <div class="state-probability">—</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Attribution -->
+    <footer style="background: linear-gradient(135deg, var(--dark-purple), var(--deep-black)); border-top: 2px solid var(--neon-cyan); padding: 3rem 2rem; margin-top: 4rem; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--neon-cyan); font-size: 1.5rem; margin-bottom: 1rem;">Created by Venkata Krishnaveni Chennuru</h3>
+                <p style="color: var(--soft-white); opacity: 0.8; margin-bottom: 1rem;">
+                    An Open Educational Resource for quantum computing education
+                </p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <a href="mailto:your.email@example.com" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
+                        📧 Email
+                    </a>
+                    <a href="https://github.com/YOUR-USERNAME" target="_blank" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
+                        🐙 GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/your-profile" target="_blank" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
+                        💼 LinkedIn
+                    </a>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--neon-purple); padding-top: 2rem; margin-top: 2rem;">
+                <p style="color: var(--soft-white); opacity: 0.6; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    Licensed under MIT License | Educational content under CC BY 4.0
+                </p>
+                <p style="color: var(--neon-purple); font-size: 0.85rem;">
+                    Free to use, modify, and share • Give credit when sharing
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://github.com/YOUR-USERNAME/qiskit-playground" target="_blank" style="display: inline-block; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: var(--deep-black); padding: 0.8rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: all 0.3s; box-shadow: 0 5px 20px var(--glow-cyan);">
+                        ⭐ Star on GitHub
+                    </a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--neon-purple);">
+                <p style="color: var(--neon-yellow); font-size: 1.1rem; font-weight: 600;">
+                    "Making quantum computing accessible, one qubit at a time!" 🚀⚛️
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tutorial Content
+        const tutorials = {
+            intro: {
+                title: "🌟 Welcome to Quantum Computing!",
+                content: `
+                    <h3>Your Journey Begins Here</h3>
+                    <p>Quantum computing uses <span class="highlight">qubits</span> instead of classical bits. Unlike regular bits that are either 0 or 1, qubits can be in <span class="highlight">superposition</span> - both 0 AND 1 at the same time!</p>
+                    
+                    <p><strong>Try This:</strong></p>
+                    <p>1. Click the <span class="highlight">H Gate</span> button above<br>
+                    2. Click <span class="highlight">Run Simulation</span><br>
+                    3. Watch the magic happen! ✨</p>
+                    
+                    <p><strong>What's Happening?</strong></p>
+                    <p>The H gate puts a qubit into superposition. When measured, you'll see it's 50% likely to be 0 and 50% likely to be 1!</p>
+                `
+            },
+            superposition: {
+                title: "🎲 Quantum Superposition",
+                content: `
+                    <h3>Multiple States at Once!</h3>
+                    <p>Imagine flipping a coin that's both heads AND tails while it's spinning. That's superposition!</p>
+                    
+                    <p><strong>The Hadamard (H) Gate:</strong></p>
+                    <p>This gate creates a perfect 50-50 superposition. It's the foundation of quantum computing!</p>
+                    
+                    <p><strong>Experiment:</strong></p>
+                    <p>• Add H gates to both qubits<br>
+                    • Run the simulation<br>
+                    • You'll see ALL 4 possible states: |00⟩, |01⟩, |10⟩, |11⟩ each appearing ~25% of the time!</p>
+                    
+                    <p class="highlight">This is impossible with classical computers!</p>
+                `
+            },
+            entanglement: {
+                title: "🔗 Quantum Entanglement",
+                content: `
+                    <h3>"Spooky Action at a Distance"</h3>
+                    <p>When qubits are entangled, measuring one <span class="highlight">instantly affects</span> the other, no matter how far apart they are!</p>
+                    
+                    <p><strong>Creating Entanglement:</strong></p>
+                    <p>1. Apply H gate to first qubit (creates superposition)<br>
+                    2. Apply CNOT gate (entangles the qubits)<br>
+                    3. Magic! They're now connected! 🔗</p>
+                    
+                    <p><strong>What You'll See:</strong></p>
+                    <p>Only |00⟩ and |11⟩ states appear! Never |01⟩ or |10⟩. The qubits are perfectly correlated.</p>
+                    
+                    <p>This is what Einstein called "spooky action at a distance" and it's real!</p>
+                `
+            },
+            gates: {
+                title: "⚡ Quantum Gates",
+                content: `
+                    <h3>The Building Blocks</h3>
+                    <p>Quantum gates manipulate qubits. Here are the essentials:</p>
+                    
+                    <p><strong>H Gate (Hadamard):</strong><br>
+                    Creates superposition. Turns |0⟩ into equal mix of |0⟩ and |1⟩</p>
+                    
+                    <p><strong>X Gate (NOT):</strong><br>
+                    Flips the qubit. |0⟩ becomes |1⟩ and vice versa</p>
+                    
+                    <p><strong>CNOT Gate:</strong><br>
+                    Controlled NOT. Flips second qubit only if first qubit is |1⟩</p>
+                    
+                    <p class="highlight">Mix and match gates to create quantum algorithms!</p>
+                    
+                    <p><strong>Try This:</strong> Apply X to first qubit, then CNOT. See what happens!</p>
+                `
+            },
+            advanced: {
+                title: "🚀 Advanced Concepts",
+                content: `
+                    <h3>Ready for More?</h3>
+                    <p>Now that you understand the basics, here are some mind-blowing applications:</p>
+                    
+                    <p><strong>Quantum Teleportation:</strong><br>
+                    Transfer quantum information using entanglement</p>
+                    
+                    <p><strong>Quantum Cryptography:</strong><br>
+                    Unbreakable encryption using quantum properties</p>
+                    
+                    <p><strong>Grover's Algorithm:</strong><br>
+                    Search databases quadratically faster than classical computers</p>
+                    
+                    <p><strong>Shor's Algorithm:</strong><br>
+                    Factor large numbers exponentially faster (threatens current encryption!)</p>
+                    
+                    <p class="highlight">The quantum revolution is just beginning!</p>
+                `
+            }
+        };
+
+        // Circuit state
+        let circuit = {
+            qubit0: [],
+            qubit1: []
+        };
+
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Load tutorial
+        function loadTutorial(name) {
+            const tutorial = tutorials[name];
+            document.getElementById('tutorialContent').innerHTML = tutorial.content;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Add gate to circuit
+        function addGate(gate, qubit) {
+            if (gate === 'CNOT') {
+                circuit.qubit0.push('CNOT-control');
+                circuit.qubit1.push('CNOT-target');
+            } else {
+                circuit[`qubit${qubit}`].push(gate);
+            }
+            
+            updateCircuitDisplay();
+            
+            // Visual feedback
+            event.target.classList.add('celebrate');
+            setTimeout(() => event.target.classList.remove('celebrate'), 500);
+        }
+
+        // Update circuit display
+        function updateCircuitDisplay() {
+            const gates0 = document.getElementById('gates0');
+            const gates1 = document.getElementById('gates1');
+            
+            gates0.innerHTML = circuit.qubit0.map(g => 
+                `<div style="background: var(--neon-cyan); color: var(--deep-black); padding: 0.5rem 1rem; border-radius: 5px; font-family: 'Fira Code', monospace; font-weight: 700; box-shadow: 0 0 15px var(--glow-cyan);">${g.replace('-control', '●').replace('-target', '⊕')}</div>`
+            ).join('');
+            
+            gates1.innerHTML = circuit.qubit1.map(g => 
+                `<div style="background: var(--neon-pink); color: var(--deep-black); padding: 0.5rem 1rem; border-radius: 5px; font-family: 'Fira Code', monospace; font-weight: 700; box-shadow: 0 0 15px var(--glow-pink);">${g.replace('-control', '').replace('-target', '⊕')}</div>`
+            ).join('');
+        }
+
+        // Reset circuit
+        function resetCircuit() {
+            circuit = { qubit0: [], qubit1: [] };
+            updateCircuitDisplay();
+            document.getElementById('results').innerHTML = '<p style="text-align: center; color: var(--neon-purple); padding: 2rem;">Circuit reset! Build a new one.</p>';
+        }
+
+        // Simulate circuit (simplified quantum simulation)
+        function runSimulation() {
+            // Simplified simulation logic
+            let results = { '00': 0, '01': 0, '10': 0, '11': 0 };
+            
+            // Determine outcome based on gates
+            const hasH0 = circuit.qubit0.includes('H');
+            const hasH1 = circuit.qubit1.includes('H');
+            const hasCNOT = circuit.qubit0.includes('CNOT-control');
+            const hasX0 = circuit.qubit0.includes('X');
+            const hasX1 = circuit.qubit1.includes('X');
+            
+            if (hasH0 && hasCNOT) {
+                // Bell state
+                results = { '00': 500, '01': 0, '10': 0, '11': 500 };
+            } else if (hasH0 && hasH1) {
+                // Both in superposition
+                results = { '00': 250, '01': 250, '10': 250, '11': 250 };
+            } else if (hasH0) {
+                // Qubit 0 in superposition
+                results = { '00': 500, '01': 0, '10': 500, '11': 0 };
+            } else if (hasH1) {
+                // Qubit 1 in superposition
+                results = { '00': 500, '01': 500, '10': 0, '11': 0 };
+            } else if (hasX0 && hasX1) {
+                results = { '00': 0, '01': 0, '10': 0, '11': 1000 };
+            } else if (hasX0) {
+                results = { '00': 0, '01': 0, '10': 1000, '11': 0 };
+            } else if (hasX1) {
+                results = { '00': 0, '01': 1000, '10': 0, '11': 0 };
+            } else {
+                results = { '00': 1000, '01': 0, '10': 0, '11': 0 };
+            }
+            
+            displayResults(results);
+        }
+
+        // Display results
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            const stateViz = document.getElementById('stateViz');
+            
+            let html = '<h4 style="color: var(--neon-cyan); margin-bottom: 1rem;">Measurement Outcomes (1000 shots):</h4>';
+            
+            Object.keys(results).forEach(state => {
+                const count = results[state];
+                const percentage = (count / 1000 * 100).toFixed(1);
+                
+                if (count > 0) {
+                    html += `
+                        <div class="result-item">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.2rem;">|${state}⟩</span>
+                                <span style="color: var(--neon-yellow); font-weight: 700;">${count} times (${percentage}%)</span>
+                            </div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            resultsDiv.innerHTML = html;
+            
+            // Update state visualizer
+            stateViz.innerHTML = Object.keys(results).map(state => {
+                const percentage = (results[state] / 1000 * 100).toFixed(1);
+                return `
+                    <div class="state-card">
+                        <div class="state-label">|${state}⟩</div>
+                        <div class="state-probability">${percentage}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Show explanation
+        function showExplanation() {
+            const hasH0 = circuit.qubit0.includes('H');
+            const hasH1 = circuit.qubit1.includes('H');
+            const hasCNOT = circuit.qubit0.includes('CNOT-control');
+            
+            let explanation = '';
+            
+            if (hasH0 && hasCNOT) {
+                explanation = '🔗 You created a Bell State! The qubits are entangled. When you measure one, you instantly know the other. This is the foundation of quantum teleportation and quantum cryptography!';
+            } else if (hasH0 && hasH1) {
+                explanation = '🎲 Both qubits are in superposition! This creates 4 possible outcomes, each equally likely. This exponential scaling is why quantum computers are powerful!';
+            } else if (hasH0) {
+                explanation = '⚡ Qubit 0 is in superposition! It\'s both |0⟩ and |1⟩ at the same time. Measurement collapses it to one state with 50% probability each.';
+            } else {
+                explanation = '💡 Your circuit is deterministic. Try adding H gates to create superposition or CNOT to create entanglement!';
+            }
+            
+            alert(explanation);
+        }
+
+        // Initialize
+        window.onload = function() {
+            createParticles();
+            loadTutorial('intro');
+            
+            // Prevent default tab behavior
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.onclick = function() {
+                    loadTutorial(this.textContent.includes('Start') ? 'intro' :
+                                this.textContent.includes('Superposition') ? 'superposition' :
+                                this.textContent.includes('Entanglement') ? 'entanglement' :
+                                this.textContent.includes('Gates') ? 'gates' : 'advanced');
+                };
+            });
+        };
+    </script>
+</body>
+</html>
