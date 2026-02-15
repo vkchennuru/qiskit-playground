@@ -1,6 +1,8 @@
 MIT License
 
-Copyright (c) 2026 vkchennuru
+Copyright (c) 2025 Venkata Krishnaveni Chennuru
+SKR & SKR Government College for Women (Autonomous)
+Kadapa, Andhra Pradesh, India
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +21,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Educational Content License:
+
+The educational content, tutorials, and documentation in this project are 
+licensed under the Creative Commons Attribution 4.0 International License 
+(CC BY 4.0).
+
+To view a copy of this license, visit:
+http://creativecommons.org/licenses/by/4.0/
+
+Attribution:
+When using this educational content, please provide attribution as follows:
+"Qiskit Quantum Playground by Venkata Krishnaveni Chennuru, 
+SKR & SKR GCW(A), Kadapa. Licensed under CC BY 4.0."
