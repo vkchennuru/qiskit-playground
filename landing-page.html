@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qiskit Quantum Playground Series - Learn Quantum Computing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100vw, -100vh); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--neon-cyan);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .author {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Intro Section */
+        .intro {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(26, 12, 62, 0.5);
+            border-radius: 15px;
+            border: 2px solid var(--neon-purple);
+        }
+
+        .intro p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .badge {
+            background: rgba(0, 255, 242, 0.1);
+            border: 2px solid var(--neon-cyan);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .learning-path h2 {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 2rem;
+        }
+
+        .path-line {
+            width: 3px;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple));
+            margin: 0 auto;
+            position: relative;
+            animation: pathGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pathGlow {
+            0%, 100% { box-shadow: 0 0 10px var(--neon-cyan); }
+            50% { box-shadow: 0 0 30px var(--neon-cyan); }
+        }
+
+        /* Level Cards */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .level-card {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 15px 60px rgba(0, 255, 242, 0.3);
+        }
+
+        .level-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-title {
+            font-size: 1.8rem;
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .level-description {
+            color: rgba(240, 240, 240, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .level-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .level-features li {
+            padding: 0.5rem 0;
+            color: var(--soft-white);
+        }
+
+        .level-features li::before {
+            content: '⚡ ';
+            color: var(--neon-purple);
+        }
+
+        .level-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-live {
+            background: rgba(0, 255, 159, 0.2);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+        }
+
+        .status-coming {
+            background: rgba(255, 190, 11, 0.2);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+        }
+
+        .level-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--neon-yellow), #fb5607);
+            color: var(--deep-black);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(255, 190, 11, 0.4);
+        }
+
+        .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255, 190, 11, 0.6);
+        }
+
+        .level-btn.disabled {
+            background: linear-gradient(135deg, #666, #444);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-cyan);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>⚛️ Qiskit Quantum Playground</h1>
+        <p class="subtitle">Complete Interactive Learning Series</p>
+        <p style="color: var(--soft-white); font-size: 1.1rem;">
+            Master quantum computing from basics to advanced - Free & Open Source
+        </p>
+        <p class="author">Created by <strong>Venkata Krishnaveni Chennuru</strong></p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Intro Section -->
+        <div class="intro">
+            <p>Welcome to the most comprehensive, free quantum computing learning platform! 🚀</p>
+            <p>Progress through 6 carefully designed levels - from complete beginner to quantum expert.</p>
+            <p>Each level builds on the previous, ensuring solid understanding before advancing.</p>
+            
+            <div class="badges">
+                <div class="badge">🎮 Interactive Learning</div>
+                <div class="badge">📚 50+ Tutorials</div>
+                <div class="badge">🆓 100% Free</div>
+                <div class="badge">🌍 Open Source</div>
+                <div class="badge">⚡ Instant Simulation</div>
+            </div>
+        </div>
+
+        <!-- Learning Path Title -->
+        <div class="learning-path">
+            <h2>📚 Your Learning Journey</h2>
+            <p style="font-size: 1.1rem; color: var(--soft-white);">
+                Follow the path from beginner to quantum computing expert!
+            </p>
+        </div>
+
+        <!-- Level Cards -->
+        <div class="levels-grid">
+            <!-- Level 1 -->
+            <div class="level-card">
+                <div class="level-status status-live">🟢 LIVE NOW</div>
+                <div class="level-number">Level 1</div>
+                <h3 class="level-title">🌟 Quantum Basics</h3>
+                <p class="level-description">
+                    Start your quantum journey! Learn the fundamentals of qubits, superposition, 
+                    and entanglement through interactive visualizations.
+                </p>
+                <ul class="level-features">
+                    <li>H, X, and CNOT gates</li>
+                    <li>2-qubit circuits</li>
+                    <li>Superposition & Entanglement</li>
+                    <li>5 interactive tutorials</li>
+                    <li>Perfect for beginners</li>
+                </ul>
+                <a href="level-1-basics/" class="level-btn">🚀 Start Learning</a>
+            </div>
+
+            <div class="path-line"></div>
+
+            <!-- Level 2 -->
+            <div class="level-card">
+                <div class="level-status status-coming">🟡 COMING SOON</div>
+                <div class="level-number">Level 2</div>
+                <h3 class="level-title">⚡ Quantum Gates Mastery</h3>
+                <p class="level-description">
+                    Master all quantum gates and understand quantum phase. Build complex 
+                    3-4 qubit circuits with confidence.
+                </p>
+                <ul class="level-features">
+                    <li>Y, Z, S, T, SWAP gates</li>
+                    <li>3-4 qubit circuits</li>
+                    <li>Bloch sphere visualization</li>
+                    <li>Phase understanding</li>
+                    <li>First algorithms!</li>
+                </ul>
+                <a href="#" class="level-btn disabled">Coming Soon</a>
+            </div>
+
+            <div class="path-line"></div>
+
+            <!-- Level 3 -->
+            <div class="level-card">
+                <div class="level-status status-coming">🟡 COMING SOON</div>
+                <div class="level-number">Level 3</div>
+                <h3 class="level-title">🚀 Quantum Algorithms</h3>
+                <p class="level-description">
+                    Implement famous quantum algorithms! Understand quantum advantage 
+                    and see why quantum computers are powerful.
+                </p>
+                <ul class="level-features">
+                    <li>Grover's Search Algorithm</li>
+                    <li>Quantum Fourier Transform</li>
+                    <li>Up to 8 qubits</li>
+                    <li>Algorithm visualization</li>
+                    <li>Performance analysis</li>
+                </ul>
+                <a href="#" class="level-btn disabled">Coming Soon</a>
+            </div>
+
+            <div class="path-line"></div>
+
+            <!-- Level 4 -->
+            <div class="level-card">
+                <div class="level-status status-coming">🟡 COMING SOON</div>
+                <div class="level-number">Level 4</div>
+                <h3 class="level-title">🌐 Real Hardware</h3>
+                <p class="level-description">
+                    Work with real quantum computers! Understand noise, errors, 
+                    and run circuits on actual quantum hardware.
+                </p>
+                <ul class="level-features">
+                    <li>IBM Quantum integration</li>
+                    <li>Noise simulation</li>
+                    <li>Error mitigation</li>
+                    <li>Real vs ideal comparison</li>
+                    <li>Run on real QPUs!</li>
+                </ul>
+                <a href="#" class="level-btn disabled">Coming Soon</a>
+            </div>
+
+            <div class="path-line"></div>
+
+            <!-- Level 5 -->
+            <div class="level-card">
+                <div class="level-status status-coming">🟡 COMING SOON</div>
+                <div class="level-number">Level 5</div>
+                <h3 class="level-title">🧬 Quantum Applications</h3>
+                <p class="level-description">
+                    Apply quantum computing to real problems in chemistry, finance, 
+                    machine learning, and cryptography.
+                </p>
+                <ul class="level-features">
+                    <li>Chemistry simulations (VQE)</li>
+                    <li>Financial optimization</li>
+                    <li>Quantum ML</li>
+                    <li>Cryptography (BB84)</li>
+                    <li>Real-world solutions</li>
+                </ul>
+                <a href="#" class="level-btn disabled">Coming Soon</a>
+            </div>
+
+            <div class="path-line"></div>
+
+            <!-- Level 6 -->
+            <div class="level-card">
+                <div class="level-status status-coming">🟡 COMING SOON</div>
+                <div class="level-number">Level 6</div>
+                <h3 class="level-title">🎮 Quantum Games</h3>
+                <p class="level-description">
+                    Master your skills through fun challenges! Compete, earn achievements, 
+                    and join the quantum gaming community.
+                </p>
+                <ul class="level-features">
+                    <li>30+ quantum puzzles</li>
+                    <li>Achievement system</li>
+                    <li>Leaderboards</li>
+                    <li>Multiplayer challenges</li>
+                    <li>Daily quests</li>
+                </ul>
+                <a href="#" class="level-btn disabled">Coming Soon</a>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="intro" style="margin-top: 3rem;">
+            <h3 style="color: var(--neon-cyan); font-size: 2rem; margin-bottom: 1rem;">
+                📅 Release Schedule
+            </h3>
+            <p>New levels released regularly! Each level is thoroughly tested and refined before release.</p>
+            <p style="margin-top: 1rem;">
+                ⭐ <strong>Star this project on GitHub</strong> to get notified of new releases!
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Computer Science Faculty | Quantum Computing Educator
+            </p>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                An Open Educational Resource for students worldwide
+            </p>
+            
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://linkedin.com/in/vkchennuru" target="_blank">💼 LinkedIn</a>
+            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-yellow); margin-top: 2rem; font-size: 1.2rem; font-weight: 600;">
+                "Making quantum computing accessible, one qubit at a time!" 🚀⚛️
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        window.onload = createParticles;
+    </script>
+</body>
+</html>
