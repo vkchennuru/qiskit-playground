@@ -1,7 +1,7 @@
 # ⚛️ Qiskit Quantum Playground
 
 **An Interactive OER Learning Tool for Quantum Computing Education**
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18648345.svg)](https://doi.org/10.5281/zenodo.18648345)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![OER](https://img.shields.io/badge/OER-Open%20Educational%20Resource-blue.svg)
