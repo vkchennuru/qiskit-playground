@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qiskit Quantum Playground - Interactive Edition</title>
+    <title>Level 1: Quantum Basics - Qiskit Quantum Playground</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -83,6 +83,48 @@
         @keyframes rotate-gradient {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: rgba(26, 12, 62, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--glow-cyan);
+            background: rgba(0, 255, 242, 0.1);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--neon-yellow), #fb5607);
+            color: var(--deep-black);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
         h1 {
@@ -492,6 +534,40 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-cyan);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--glow-cyan);
+        }
+
         /* Responsive */
         @media (max-width: 968px) {
             .container {
@@ -504,6 +580,16 @@
 
             .tutorial-tabs {
                 grid-template-columns: 1fr;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
 
@@ -533,19 +619,30 @@
     <!-- Particle Background -->
     <div class="particles" id="particles"></div>
 
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <span class="level-badge">Level 1: Quantum Basics</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
-        <h1>⚛️ Quantum Playground</h1>
-        <div class="tagline">Interactive Quantum Computing Lab</div>
+        <h1>⚛️ Level 1: Quantum Basics</h1>
+        <div class="tagline">Start Your Quantum Journey</div>
         <div class="badges">
-            <div class="badge">🎮 Instant Simulation</div>
-            <div class="badge">🎨 Visual Learning</div>
-            <div class="badge">🚀 No Setup Required</div>
+            <div class="badge">🎮 Interactive Learning</div>
+            <div class="badge">⚡ Instant Simulation</div>
+            <div class="badge">🎓 Beginner Friendly</div>
         </div>
         <div style="text-align: center; margin-top: 1.5rem;">
             <p style="color: var(--neon-yellow); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
-                Created by <strong style="color: var(--neon-cyan);">Venkata Krishnaveni Chennuru</strong> | 
-                <a href="https://github.com/YOUR-USERNAME/qiskit-playground" target="_blank" style="color: var(--neon-pink); text-decoration: none;">View on GitHub ⭐</a>
+                Created by <strong style="color: var(--neon-cyan);">Venkata Krishnaveni Chennuru</strong><br>
+                SKR & SKR GCW(A), Kadapa
             </p>
         </div>
     </header>
@@ -636,46 +733,35 @@
         </div>
     </div>
 
-    <!-- Footer with Attribution -->
-    <footer style="background: linear-gradient(135deg, var(--dark-purple), var(--deep-black)); border-top: 2px solid var(--neon-cyan); padding: 3rem 2rem; margin-top: 4rem; text-align: center;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="margin-bottom: 2rem;">
-                <h3 style="color: var(--neon-cyan); font-size: 1.5rem; margin-bottom: 1rem;">Created by Venkata Krishnaveni Chennuru</h3>
-                <p style="color: var(--soft-white); opacity: 0.8; margin-bottom: 1rem;">
-                    An Open Educational Resource for quantum computing education
-                </p>
-                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                    <a href="mailto:your.email@example.com" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
-                        📧 Email
-                    </a>
-                    <a href="https://github.com/YOUR-USERNAME" target="_blank" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
-                        🐙 GitHub
-                    </a>
-                    <a href="https://linkedin.com/in/your-profile" target="_blank" style="color: var(--neon-yellow); text-decoration: none; transition: all 0.3s;">
-                        💼 LinkedIn
-                    </a>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Faculty, Department of Computer Science<br>
+                SKR & SKR Government College for Women (Autonomous)<br>
+                Kadapa, Andhra Pradesh, India
+            </p>
+            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
+                Level 1 of the Qiskit Quantum Playground Series<br>
+                An Open Educational Resource for students worldwide
+            </p>
             
-            <div style="border-top: 1px solid var(--neon-purple); padding-top: 2rem; margin-top: 2rem;">
-                <p style="color: var(--soft-white); opacity: 0.6; font-size: 0.9rem; margin-bottom: 0.5rem;">
-                    Licensed under MIT License | Educational content under CC BY 4.0
-                </p>
-                <p style="color: var(--neon-purple); font-size: 0.85rem;">
-                    Free to use, modify, and share • Give credit when sharing
-                </p>
-                <div style="margin-top: 1.5rem;">
-                    <a href="https://github.com/YOUR-USERNAME/qiskit-playground" target="_blank" style="display: inline-block; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color: var(--deep-black); padding: 0.8rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: all 0.3s; box-shadow: 0 5px 20px var(--glow-cyan);">
-                        ⭐ Star on GitHub
-                    </a>
-                </div>
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
+                <a href="../">🏠 Back to Main</a>
             </div>
-            
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--neon-purple);">
-                <p style="color: var(--neon-yellow); font-size: 1.1rem; font-weight: 600;">
-                    "Making quantum computing accessible, one qubit at a time!" 🚀⚛️
-                </p>
-            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-yellow); margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">
+                "Making quantum computing accessible, one qubit at a time!" 🚀⚛️
+            </p>
         </div>
     </footer>
 
@@ -770,6 +856,8 @@
                     Factor large numbers exponentially faster (threatens current encryption!)</p>
                     
                     <p class="highlight">The quantum revolution is just beginning!</p>
+                    
+                    <p><strong>Next Steps:</strong> Continue to Level 2 (Coming Soon!) to master more quantum gates and algorithms!</p>
                 `
             }
         };
@@ -839,6 +927,9 @@
             circuit = { qubit0: [], qubit1: [] };
             updateCircuitDisplay();
             document.getElementById('results').innerHTML = '<p style="text-align: center; color: var(--neon-purple); padding: 2rem;">Circuit reset! Build a new one.</p>';
+            
+            // Reset state visualizer
+            document.querySelectorAll('.state-probability').forEach(el => el.textContent = '—');
         }
 
         // Simulate circuit (simplified quantum simulation)
