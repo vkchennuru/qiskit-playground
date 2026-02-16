@@ -1,126 +1,249 @@
 # ⚛️ Qiskit Quantum Playground
 
-**An Interactive OER Learning Tool for Quantum Computing Education**
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18648345.svg)](https://doi.org/10.5281/zenodo.18648345)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-active-success.svg)
-![OER](https://img.shields.io/badge/OER-Open%20Educational%20Resource-blue.svg)
+**Complete Interactive Learning Series**
+
+Created by **Venkata Krishnaveni Chennuru**
 
 ---
 
-## 🌟 Live Demo
+## 🎯 Overview
 
-**[Try it now!](https://vkchennuru.github.io/qiskit-playground/)**
+Progress through 6 carefully designed levels — from beginner to quantum mastery.
 
-Experience interactive quantum computing education - no installation required!
+A comprehensive quantum computing education platform featuring:
 
----
-
-## 📖 About
-
-The Qiskit Quantum Playground is a comprehensive, web-based Open Educational Resource designed to make quantum computing accessible to students worldwide. This interactive platform features a 6-level learning path that guides learners from fundamental quantum concepts to advanced quantum algorithms.
-
-### What Makes It Special?
-
-- **Interactive Learning** - Build quantum circuits by clicking, not coding
-- **Instant Feedback** - See quantum measurement results in real-time
-- **Progressive Learning** - 6 levels from beginner to expert
-- **Zero Barriers** - No downloads, no installations, no API keys
-- **Completely Free** - Open source and free forever
-- **Beautiful Design** - Engaging, game-like interface
+- 📘 **Structured 6-Level Curriculum** - Systematic progression from basics to advanced
+- ⚛️ **Hands-on Quantum Circuits** - Interactive circuit building and visualization
+- 🧠 **Concept-to-Capstone Learning** - Complete journey ending with real project
+- 🆓 **Open Educational Resource** - Free for everyone, open source
+- 🚀 **Real Quantum Applications** - Practical applications in industry and research
 
 ---
 
-## ✨ Features
+## 📚 The 6-Level Journey
 
-### 🎮 Interactive Circuit Builder
-Click to add quantum gates (H, X, CNOT) and build circuits visually.
+### Level 1: 🌟 Quantum Basics
+**Foundations of qubits, superposition and entanglement.**
 
-### ⚡ Real-time Quantum Simulation
-See measurement outcomes instantly with beautiful probability visualizations.
+Learn the fundamentals:
+- What qubits are and how they differ from classical bits
+- Quantum superposition and measurement
+- Quantum entanglement and Bell states
+- Basic quantum gates: H, X, CNOT
 
-### 📚 Built-in Tutorials
-Step-by-step guidance through superposition, entanglement, quantum gates, and more!
-
-### 🎨 Beautiful Visualizations
-Animated probability bars, state cards, and interactive displays.
-
-### 📱 Works Everywhere
-Desktop, tablet, or mobile - runs on any device with a modern browser.
+**[Start Level 1 →](level-1-basics/)**
 
 ---
 
-## 🎓 Learning Path
+### Level 2: ⚡ Quantum Gates
+**Master core gates, phase and multi-qubit circuits.**
 
-### **Level 1: Quantum Basics** ✅ LIVE NOW!
-Start your quantum journey! Learn qubits, superposition, and entanglement.
+Build your gate knowledge:
+- Pauli gates: X, Y, Z
+- Phase gates: S, T and adjoints
+- Multi-qubit gates: SWAP, CZ
+- 4-qubit circuit design
+- Bloch sphere visualization
 
-**[Start Level 1](https://vkchennuru.github.io/qiskit-playground/level-1-basics/)**
-
-### **Level 2: Quantum Gates Mastery** 🔜 Coming Soon
-Master all quantum gates. Build 3-4 qubit circuits.
-
-### **Level 3: Quantum Algorithms** 🔜 Coming Soon
-Implement Grover's Search and Quantum Fourier Transform.
-
-### **Level 4: Real Hardware & Noise** 🔜 Coming Soon
-Work with real quantum computers and error mitigation.
-
-### **Level 5: Quantum Applications** 🔜 Coming Soon
-Apply quantum computing to chemistry, finance, ML, and cryptography.
-
-### **Level 6: Quantum Games** 🔜 Coming Soon
-Master skills through puzzles and challenges.
+**[Start Level 2 →](level-2-gates/)**
 
 ---
 
-## 🚀 Quick Start
+### Level 3: 🚀 Quantum Algorithms
+**Grover, QFT and algorithm visualization.**
 
-### For Students
+Implement famous algorithms:
+- Grover's search algorithm
+- Quantum Fourier Transform (QFT)
+- Deutsch-Jozsa algorithm
+- Simon's and Bernstein-Vazirani
+- Phase estimation
+- Quantum advantage understanding
 
-1. Visit [https://vkchennuru.github.io/qiskit-playground/](https://vkchennuru.github.io/qiskit-playground/)
-2. Click "Start Level 1"
-3. Read the tutorial
-4. Build circuits by clicking gates
-5. Click "Run Simulation"
-6. Learn and experiment!
-
-### For Educators
-
-Free to use in your classroom! No permission needed - it's an Open Educational Resource.
+**[Start Level 3 →](level-3-algorithms/)**
 
 ---
 
-## 💻 Technology
+### Level 4: 🌐 Real Hardware
+**Noise models and execution on real quantum devices.**
 
-- **HTML5, CSS3, JavaScript** - Pure vanilla web technologies
-- **Client-side only** - No backend required
-- **Offline capable** - After first load
+Understand real quantum computers:
+- Quantum noise sources and types
+- Decoherence (T1) and dephasing (T2)
+- Gate and measurement errors
+- Error mitigation techniques
+- NISQ era understanding
+- IBM Quantum hardware specs
 
----
-
-## 📄 License & Usage
-
-### Code: MIT License
-Free to use, modify, and distribute.
-
-### Educational Content: CC BY 4.0
-Free to use in education with attribution.
-
-**You can:**
-- ✅ Use commercially or non-commercially
-- ✅ Modify and adapt
-- ✅ Share with others
-- ✅ Use in paid or free courses
-
-**You must:**
-- 📝 Give credit to the creator
+**[Start Level 4 →](level-4-hardware/)**
 
 ---
 
-## 👨‍🎓 Author & Contact
+### Level 5: 🧬 Quantum Applications
+**VQE, QAOA, cryptography and real-world impact.**
 
-### Created By
+Apply quantum computing:
+- VQE for quantum chemistry
+- QAOA for optimization
+- Quantum machine learning
+- BB84 quantum cryptography
+- Real industry applications
+
+**[Start Level 5 →](level-5-applications/)**
+
+---
+
+### Level 6: 🎓 Final Capstone
+**Complete your journey with an integrated quantum project.**
+
+Demonstrate mastery:
+- Final capstone challenge
+- Reflection on learning journey
+- Complete mastery checklist
+- Next steps guidance
+- Career pathways
+
+**[Start Capstone →](level-6-capstone/)**
+
+---
+
+## 🚀 Getting Started
+
+1. **Start with Level 1** - Build strong foundations
+2. **Progress sequentially** - Each level builds on previous knowledge
+3. **Complete all tutorials** - Hands-on practice is essential
+4. **Finish with Capstone** - Demonstrate your mastery
+
+### Prerequisites
+
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Basic understanding of mathematics (algebra, complex numbers helpful)
+- Curiosity and dedication to learn quantum computing!
+
+### No Installation Required
+
+All levels run directly in your browser - no software installation needed!
+
+---
+
+## 📖 What You'll Learn
+
+### Complete Quantum Computing Curriculum
+
+**Foundations:**
+- Quantum mechanics basics
+- Qubits and quantum states
+- Superposition and measurement
+- Quantum entanglement
+
+**Tools & Techniques:**
+- All major quantum gates
+- Circuit design and optimization
+- Quantum algorithms
+- Error analysis
+
+**Advanced Topics:**
+- Real quantum hardware
+- Noise and error mitigation
+- Variational algorithms
+- Quantum applications
+
+**Real-World Skills:**
+- Problem-solving with quantum
+- Algorithm implementation
+- Application design
+- Career preparation
+
+---
+
+## ⏱️ Time Investment
+
+**Total Learning Time:** 70+ hours
+
+- **Level 1:** 10 hours
+- **Level 2:** 10 hours
+- **Level 3:** 15 hours
+- **Level 4:** 10 hours
+- **Level 5:** 10 hours
+- **Level 6:** 15 hours
+
+**Recommended Pace:**
+- 2-3 hours per session
+- Complete one level per week
+- Practice and review regularly
+- Take notes and experiment
+
+---
+
+## 🎯 Learning Outcomes
+
+Upon completing all 6 levels, you will be able to:
+
+✅ Explain quantum computing fundamentals  
+✅ Design and build quantum circuits  
+✅ Implement famous quantum algorithms  
+✅ Understand real quantum hardware limitations  
+✅ Apply quantum computing to real problems  
+✅ Pursue quantum computing career opportunities  
+
+---
+
+## 🌟 Features
+
+### Interactive Learning
+- Hands-on circuit building
+- Real-time visualization
+- Interactive tutorials
+- Immediate feedback
+
+### Structured Progression
+- 6 carefully designed levels
+- Sequential knowledge building
+- Concept reinforcement
+- Capstone integration
+
+### Professional Quality
+- Industry-relevant content
+- Real-world applications
+- Current best practices
+- Career-focused guidance
+
+### Open & Free
+- No cost, no registration
+- Open source code
+- Free educational content
+- Community-driven
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Ways to help:
+
+- Report bugs or issues
+- Suggest improvements
+- Add translations
+- Create additional content
+- Share with others
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📜 License
+
+This project is dual-licensed:
+
+- **Code:** MIT License - free to use, modify, distribute
+- **Educational Content:** CC BY 4.0 - free to share with attribution
+
+See [LICENSE](LICENSE) for full details.
+
+---
+
+## 📞 Contact & Support
+
+### Creator
 
 **Venkata Krishnaveni Chennuru**  
 Faculty, Department of Computer Science  
@@ -130,82 +253,115 @@ Kadapa, Andhra Pradesh, India
 ### Connect
 
 - 📧 **Email:** [vkchennuru.cs@gmail.com](mailto:vkchennuru.cs@gmail.com)
-- 🐙 **GitHub:** [@vkchennuru](https://github.com/vkchennuru)
+- 🐙 **GitHub:** [github.com/vkchennuru](https://github.com/vkchennuru)
 - 💼 **LinkedIn:** [Venkata Krishnaveni Chennuru](https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888)
-- 🌐 **Website:** [vkchennuru.github.io/qiskit-playground](https://vkchennuru.github.io/qiskit-playground/)
+
+### Support
+
+- 🐛 **Report Issues:** [GitHub Issues](https://github.com/vkchennuru/qiskit-playground/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/vkchennuru/qiskit-playground/discussions)
+- ⭐ **Star the Repo:** Show your support!
 
 ---
 
-## 🤝 Contributing
+## 🙏 Acknowledgments
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Ways to Contribute
-- 🐛 Report bugs
-- 💡 Suggest features
-- 📚 Add tutorials
-- 🌍 Translate to other languages
-- 💻 Improve code
+- **IBM Qiskit** - For the amazing quantum computing framework
+- **Quantum Computing Community** - For inspiration and knowledge sharing
+- **Students Worldwide** - For whom this resource was created
+- **Open Source Contributors** - For making education accessible
 
 ---
 
-## 📊 Cite This Project
+## 🌍 Impact
 
-### BibTeX
-```bibtex
-@software{qiskit_playground_2025,
-  author = {Chennuru, Venkata Krishnaveni},
-  title = {Qiskit Quantum Playground: An Interactive OER Learning Tool},
-  year = {2025},
-  url = {https://github.com/vkchennuru/qiskit-playground},
-  note = {Open Educational Resource}
-}
+### Open Educational Resource
+
+This playground is designed to democratize quantum computing education:
+
+- Free for all students worldwide
+- No barriers to entry
+- Self-paced learning
+- Comprehensive curriculum
+- Professional quality
+
+### Join the Quantum Revolution
+
+Quantum computing is transforming:
+- Drug discovery and healthcare
+- Financial modeling and optimization
+- Cryptography and security
+- Artificial intelligence
+- Scientific research
+
+**Learn quantum computing today. Build the quantum future tomorrow!**
+
+---
+
+## 🎓 Citation
+
+If you use this resource in your research or teaching, please cite:
+
+```
+Chennuru, V. K. (2025). Qiskit Quantum Playground: 
+A Complete Interactive Learning Series for Quantum Computing Education. 
+SKR & SKR Government College for Women (Autonomous), Kadapa, India.
+https://github.com/vkchennuru/qiskit-playground
 ```
 
-### APA
-```
-Chennuru, V. K. (2025). Qiskit Quantum Playground: An Interactive OER Learning Tool 
-[Computer software]. https://github.com/vkchennuru/qiskit-playground
-```
+See [CITATION.cff](CITATION.cff) for structured citation format.
 
 ---
 
-## 🌟 Acknowledgments
+## 📈 Repository Stats
 
-- **Qiskit Community** - Quantum computing education resources
-- **IBM Quantum** - Pioneering quantum education
-- **Students Worldwide** - Who inspire better tools
+![GitHub stars](https://img.shields.io/github/stars/vkchennuru/qiskit-playground?style=social)
+![GitHub forks](https://img.shields.io/github/forks/vkchennuru/qiskit-playground?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/vkchennuru/qiskit-playground?style=social)
+
+![License](https://img.shields.io/badge/License-MIT%20%2B%20CC%20BY%204.0-blue)
+![Educational](https://img.shields.io/badge/Type-Educational-green)
+![Quantum](https://img.shields.io/badge/Field-Quantum%20Computing-purple)
 
 ---
 
-## 💝 Support This Project
+## 🗺️ Roadmap
 
-- ⭐ Star this repository
-- 📢 Share with others
-- 🐛 Report issues
-- 🤝 Contribute
-- 💬 Share your feedback
+### Current (v1.0)
+- ✅ All 6 levels complete
+- ✅ Interactive circuit builders
+- ✅ Comprehensive tutorials
+- ✅ Real-world applications
+
+### Future Plans
+- 🔄 Additional practice problems
+- 🔄 Video tutorial integration
+- 🔄 Mobile app version
+- 🔄 Multi-language support
+- 🔄 Community challenges
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for quantum learners worldwide**
+## 🌟 Start Your Quantum Journey Today! 🌟
 
-**"Making quantum computing accessible, one qubit at a time!"** 🚀⚛️
+**From Curiosity to Competence**
 
----
-
-### Quick Links
-
-**[🎮 Live Demo](https://vkchennuru.github.io/qiskit-playground/)** | 
-**[📖 Documentation](https://github.com/vkchennuru/qiskit-playground)** | 
-**[🐛 Report Bug](https://github.com/vkchennuru/qiskit-playground/issues)** | 
-**[💡 Request Feature](https://github.com/vkchennuru/qiskit-playground/issues)**
+**6 Levels • 70+ Hours • Complete Mastery**
 
 ---
 
-© 2025 Venkata Krishnaveni Chennuru | SKR & SKR GCW(A), Kadapa | MIT License
+**[🚀 Begin Level 1](level-1-basics/)** | 
+**[📖 View All Levels](#-the-6-level-journey)** | 
+**[⭐ Star This Repo](https://github.com/vkchennuru/qiskit-playground)**
+
+---
+
+### Made with ❤️ for quantum learners worldwide
+
+© 2025 Venkata Krishnaveni Chennuru
+
+**An Open Educational Resource**
 
 </div>
-
