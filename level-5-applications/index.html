@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 5: Quantum Applications - Qiskit Quantum Playground</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --neon-magenta: #d000ff;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+            --glow-magenta: rgba(208, 0, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: var(--neon-magenta);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--neon-magenta);
+            animation: float-particle 30s infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(50vw, -120vh) rotate(720deg) scale(2); opacity: 0; }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 2rem;
+            border-bottom: 3px solid var(--neon-magenta);
+            box-shadow: 0 10px 40px var(--glow-magenta);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-magenta), transparent);
+            opacity: 0.2;
+            animation: rotate-gradient 25s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-bar {
+            background: rgba(26, 12, 62, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--neon-magenta);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 15px var(--glow-magenta);
+            background: rgba(208, 0, 255, 0.1);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--neon-magenta), #b000dd);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--glow-magenta); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px var(--glow-magenta); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, var(--neon-magenta), var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--neon-magenta);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(208, 0, 255, 0.15);
+            border: 2px solid var(--neon-magenta);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px var(--glow-magenta);
+            animation: badge-float 3s ease-in-out infinite;
+        }
+
+        .badge:nth-child(2) { animation-delay: 0.5s; }
+        .badge:nth-child(3) { animation-delay: 1s; }
+        .badge:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes badge-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(208, 0, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            border-color: var(--neon-magenta);
+            box-shadow: 0 15px 60px var(--glow-magenta);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-magenta);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title::before {
+            content: '🧬';
+            font-size: 1.5rem;
+            animation: dna-spin 3s ease-in-out infinite;
+        }
+
+        @keyframes dna-spin {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .application-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .app-card {
+            background: rgba(208, 0, 255, 0.1);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-magenta), var(--neon-pink));
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--neon-pink);
+            box-shadow: 0 10px 40px var(--glow-magenta);
+            background: rgba(208, 0, 255, 0.2);
+        }
+
+        .app-card.active {
+            border-color: var(--neon-pink);
+            background: linear-gradient(135deg, rgba(208, 0, 255, 0.3), rgba(255, 0, 110, 0.2));
+            box-shadow: 0 0 30px var(--glow-magenta);
+        }
+
+        .app-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-title {
+            color: var(--neon-magenta);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-desc {
+            color: rgba(240, 240, 240, 0.85);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-domain {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(208, 0, 255, 0.2);
+            color: var(--neon-magenta);
+            border: 1px solid var(--neon-magenta);
+        }
+
+        .tutorial-content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-magenta);
+            line-height: 1.8;
+        }
+
+        .tutorial-content h3 {
+            color: var(--neon-magenta);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tutorial-content p {
+            margin-bottom: 1rem;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+        .highlight {
+            background: rgba(208, 0, 255, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--neon-magenta);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        .molecule-display {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .molecule-viz {
+            font-size: 4rem;
+            margin: 1rem 0;
+        }
+
+        .energy-display {
+            background: rgba(208, 0, 255, 0.1);
+            border: 2px solid var(--neon-magenta);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .energy-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-magenta);
+        }
+
+        .use-cases {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .use-case {
+            background: rgba(208, 0, 255, 0.1);
+            border-left: 4px solid var(--neon-magenta);
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .use-case-title {
+            color: var(--neon-magenta);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-example {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-magenta);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .impact-box {
+            background: linear-gradient(135deg, rgba(208, 0, 255, 0.15), rgba(255, 0, 110, 0.1));
+            border: 2px solid var(--neon-magenta);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .impact-box h4 {
+            color: var(--neon-magenta);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--neon-magenta), #b000dd);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px var(--glow-magenta);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px var(--glow-magenta);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-magenta);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-magenta);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-magenta);
+            text-shadow: 0 0 10px var(--glow-magenta);
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .application-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <a href="../level-1-basics/" class="nav-link">Level 1</a>
+            <a href="../level-2-gates/" class="nav-link">Level 2</a>
+            <a href="../level-3-algorithms/" class="nav-link">Level 3</a>
+            <a href="../level-4-hardware/" class="nav-link">Level 4</a>
+            <span class="level-badge">Level 5: Quantum Applications</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>🧬 Level 5: Quantum Applications</h1>
+        <div class="tagline">Solve Real-World Problems</div>
+        <div class="badges">
+            <div class="badge">⚗️ Quantum Chemistry</div>
+            <div class="badge">📈 Optimization</div>
+            <div class="badge">🤖 Machine Learning</div>
+            <div class="badge">🔐 Cryptography</div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--neon-magenta); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                Created by <strong style="color: var(--neon-pink);">Venkata Krishnaveni Chennuru</strong><br>
+                SKR & SKR GCW(A), Kadapa
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Tracker -->
+        <div class="panel full-width">
+            <div class="impact-box">
+                <h4>🎯 Final Level! (Almost)</h4>
+                <p>
+                    ✅ Levels 1-4 Complete | 🔥 Level 5: Real Applications (Current) | 
+                    You're 83% through! This is where quantum computing meets reality - solving actual problems!
+                </p>
+            </div>
+        </div>
+
+        <!-- Application Selection -->
+        <div class="panel full-width">
+            <div class="panel-title">🎯 Choose Your Application</div>
+            
+            <div class="application-cards">
+                <div class="app-card active" onclick="loadApplication('vqe')">
+                    <div class="app-icon">⚗️</div>
+                    <div class="app-title">VQE - Chemistry</div>
+                    <div class="app-desc">Calculate molecular ground state energies for drug discovery and materials science!</div>
+                    <span class="app-domain">Quantum Chemistry</span>
+                </div>
+
+                <div class="app-card" onclick="loadApplication('qaoa')">
+                    <div class="app-icon">📈</div>
+                    <div class="app-title">QAOA - Optimization</div>
+                    <div class="app-desc">Solve combinatorial optimization problems faster than classical methods!</div>
+                    <span class="app-domain">Operations Research</span>
+                </div>
+
+                <div class="app-card" onclick="loadApplication('qml')">
+                    <div class="app-icon">🤖</div>
+                    <div class="app-title">Quantum ML</div>
+                    <div class="app-desc">Enhance machine learning with quantum feature spaces and kernel methods!</div>
+                    <span class="app-domain">Artificial Intelligence</span>
+                </div>
+
+                <div class="app-card" onclick="loadApplication('bb84')">
+                    <div class="app-icon">🔐</div>
+                    <div class="app-title">BB84 Protocol</div>
+                    <div class="app-desc">Unbreakable quantum cryptography using quantum key distribution!</div>
+                    <span class="app-domain">Cybersecurity</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Tutorial -->
+        <div class="panel full-width">
+            <div class="panel-title">📚 Application Explained</div>
+            <div class="tutorial-content" id="applicationContent">
+                <!-- Content loaded by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Interactive Visualization -->
+        <div class="panel">
+            <div class="panel-title">🎨 Visualization</div>
+            
+            <div class="molecule-display" id="visualization">
+                <div class="molecule-viz" id="vizContent">⚗️</div>
+                <div id="vizDescription">
+                    Select an application to see it in action!
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="runApplication()">▶️ Run Application</button>
+                <button class="btn btn-secondary" onclick="showDetails()">📊 Show Details</button>
+            </div>
+        </div>
+
+        <!-- Results/Impact -->
+        <div class="panel">
+            <div class="panel-title">💡 Real-World Impact</div>
+            
+            <div class="use-cases" id="useCases">
+                <!-- Use cases loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Faculty, Department of Computer Science<br>
+                SKR & SKR Government College for Women (Autonomous)<br>
+                Kadapa, Andhra Pradesh, India
+            </p>
+            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
+                Level 5 of the Qiskit Quantum Playground Series<br>
+                An Open Educational Resource for students worldwide
+            </p>
+            
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
+                <a href="../">🏠 Back to Main</a>
+            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-magenta); margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">
+                "Solving tomorrow's problems with today's quantum computers!" 🧬⚡
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const applications = {
+            vqe: {
+                title: "⚗️ Variational Quantum Eigensolver (VQE)",
+                content: `
+                    <h3>Quantum Chemistry Revolution</h3>
+                    <p><span class="highlight">VQE</span> finds the ground state energy of molecules - essential for drug discovery and materials science!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Simulating molecules on classical computers is HARD. The computational cost grows exponentially with molecule size!</p>
+                    
+                    <p><strong>Classical Limitation:</strong><br>
+                    • Caffeine molecule: 10^48 possible states<br>
+                    • Would take supercomputers years<br>
+                    • Only small molecules possible</p>
+                    
+                    <p><strong>Quantum Solution (VQE):</strong><br>
+                    • Uses quantum computer + classical optimizer<br>
+                    • Hybrid quantum-classical algorithm<br>
+                    • Works on NISQ devices TODAY!</p>
+                    
+                    <p><strong>How VQE Works:</strong></p>
+                    <div class="code-example">
+1. Prepare quantum state (ansatz)
+2. Measure energy expectation ⟨H⟩
+3. Classical optimizer adjusts parameters
+4. Repeat until energy converges
+5. Get ground state energy!
+                    </div>
+                    
+                    <p><strong>Why It's Revolutionary:</strong></p>
+                    <p>VQE was one of the first algorithms to show <span class="highlight">quantum advantage</span> for chemistry on real quantum hardware!</p>
+                    
+                    <p><strong>Real Applications:</strong></p>
+                    <p>• <span class="highlight">Drug Discovery</span> - Design better medications<br>
+                    • <span class="highlight">Materials Science</span> - Create new materials<br>
+                    • <span class="highlight">Battery Technology</span> - Better energy storage<br>
+                    • <span class="highlight">Catalysts</span> - Improve chemical reactions<br>
+                    • <span class="highlight">Solar Cells</span> - More efficient energy</p>
+                    
+                    <div class="impact-box">
+                        <h4>💊 Real Example</h4>
+                        <p>Google's quantum computer calculated molecular energies for H₂, LiH, and BeH₂ using VQE - 
+                        achieving chemical accuracy! This is just the beginning...</p>
+                    </div>
+                `,
+                viz: "H₂",
+                vizDesc: "Hydrogen molecule - VQE calculates bond energy",
+                useCases: [
+                    { title: "Drug Discovery", desc: "Design molecules that bind to disease proteins more effectively" },
+                    { title: "Battery Materials", desc: "Find better lithium-ion battery materials for EVs" },
+                    { title: "Catalysts", desc: "Design catalysts for clean energy production" }
+                ]
+            },
+            qaoa: {
+                title: "📈 Quantum Approximate Optimization Algorithm (QAOA)",
+                content: `
+                    <h3>Optimization at Quantum Speed</h3>
+                    <p><span class="highlight">QAOA</span> solves combinatorial optimization problems that are intractable for classical computers!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Many real-world problems are <span class="highlight">NP-hard</span> - finding the optimal solution takes exponential time!</p>
+                    
+                    <p><strong>Examples:</strong></p>
+                    <p>• Traveling Salesman Problem<br>
+                    • Portfolio optimization<br>
+                    • Traffic routing<br>
+                    • Supply chain logistics<br>
+                    • Job scheduling</p>
+                    
+                    <p><strong>Classical Approach:</strong><br>
+                    • Try all possibilities → exponential time<br>
+                    • Use heuristics → not guaranteed optimal<br>
+                    • Approximation algorithms → still slow</p>
+                    
+                    <p><strong>Quantum Approach (QAOA):</strong></p>
+                    <div class="code-example">
+1. Encode problem as Hamiltonian
+2. Apply mixer and problem Hamiltonians
+3. Alternate p times (deeper = better)
+4. Measure to get solution
+5. Repeat for statistical certainty
+                    </div>
+                    
+                    <p><strong>How It Works:</strong></p>
+                    <p>QAOA uses <span class="highlight">quantum interference</span> to make good solutions more likely and bad solutions cancel out!</p>
+                    
+                    <p><strong>Real-World Applications:</strong></p>
+                    <p>• <span class="highlight">Finance</span> - Portfolio optimization<br>
+                    • <span class="highlight">Logistics</span> - Route optimization<br>
+                    • <span class="highlight">Manufacturing</span> - Job scheduling<br>
+                    • <span class="highlight">Energy</span> - Power grid optimization<br>
+                    • <span class="highlight">ML</span> - Feature selection</p>
+                    
+                    <div class="impact-box">
+                        <h4>🚛 Real Example</h4>
+                        <p>Volkswagen used QAOA on a D-Wave quantum computer to optimize traffic flow for 10,000 taxis in Beijing. 
+                        Quantum computers found better routes than classical algorithms!</p>
+                    </div>
+                    
+                    <p><strong>The Promise:</strong></p>
+                    <p>QAOA is designed specifically for NISQ devices. As quantum computers improve, QAOA will solve increasingly large problems!</p>
+                `,
+                viz: "📊",
+                vizDesc: "Optimization landscape - finding global minimum",
+                useCases: [
+                    { title: "Traffic Optimization", desc: "Reduce congestion and travel time in cities" },
+                    { title: "Financial Portfolio", desc: "Maximize returns while minimizing risk" },
+                    { title: "Supply Chain", desc: "Optimize logistics and reduce costs" }
+                ]
+            },
+            qml: {
+                title: "🤖 Quantum Machine Learning",
+                content: `
+                    <h3>AI Meets Quantum</h3>
+                    <p><span class="highlight">Quantum Machine Learning</span> combines quantum computing with AI to create more powerful learning algorithms!</p>
+                    
+                    <p><strong>Why Quantum for ML?</strong></p>
+                    <p>• <span class="highlight">Quantum feature spaces</span> - exponentially large<br>
+                    • <span class="highlight">Quantum kernels</span> - capture complex patterns<br>
+                    • <span class="highlight">Superposition</span> - parallel data processing<br>
+                    • <span class="highlight">Entanglement</span> - complex correlations</p>
+                    
+                    <p><strong>Key Approaches:</strong></p>
+                    
+                    <p><strong>1. Quantum Kernel Methods:</strong><br>
+                    Map classical data to quantum feature space where it's easier to separate!</p>
+                    
+                    <div class="code-example">
+Classical data → Quantum circuit → 
+Quantum feature space → Kernel → 
+Classical ML algorithm
+                    </div>
+                    
+                    <p><strong>2. Variational Quantum Classifiers:</strong><br>
+                    Quantum neural networks that learn from data!</p>
+                    
+                    <p><strong>3. Quantum Generative Models:</strong><br>
+                    Generate new data using quantum states!</p>
+                    
+                    <p><strong>Advantages:</strong></p>
+                    <p>• <span class="highlight">Exponential feature spaces</span><br>
+                    • <span class="highlight">Faster training</span> (potentially)<br>
+                    • <span class="highlight">Better generalization</span><br>
+                    • <span class="highlight">Handle high-dimensional data</span></p>
+                    
+                    <p><strong>Real Applications:</strong></p>
+                    <p>• <span class="highlight">Image Recognition</span> - Better than classical<br>
+                    • <span class="highlight">Natural Language</span> - Quantum transformers<br>
+                    • <span class="highlight">Drug Discovery</span> - Predict molecule properties<br>
+                    • <span class="highlight">Finance</span> - Fraud detection, risk analysis<br>
+                    • <span class="highlight">Particle Physics</span> - LHC data analysis</p>
+                    
+                    <div class="impact-box">
+                        <h4>🎯 Real Example</h4>
+                        <p>IBM demonstrated quantum advantage in classification tasks using quantum kernel methods. 
+                        The quantum classifier found patterns classical ML missed!</p>
+                    </div>
+                    
+                    <p><strong>The Future:</strong></p>
+                    <p>As quantum computers scale up, QML could revolutionize AI, enabling learning from data in ways impossible for classical computers!</p>
+                `,
+                viz: "🧠",
+                vizDesc: "Quantum neural network learning patterns",
+                useCases: [
+                    { title: "Image Classification", desc: "Recognize patterns in medical imaging" },
+                    { title: "Financial Modeling", desc: "Predict market trends and detect fraud" },
+                    { title: "Drug Design", desc: "Predict molecular properties for drug candidates" }
+                ]
+            },
+            bb84: {
+                title: "🔐 BB84 Quantum Cryptography",
+                content: `
+                    <h3>Unbreakable Encryption</h3>
+                    <p><span class="highlight">BB84</span> is a quantum key distribution protocol that provides provably secure communication!</p>
+                    
+                    <p><strong>The Problem:</strong></p>
+                    <p>Current encryption (RSA, ECC) could be broken by quantum computers using Shor's algorithm!</p>
+                    
+                    <p><strong>Classical Cryptography:</strong><br>
+                    • Based on computational hardness<br>
+                    • Could be broken with enough computing power<br>
+                    • Vulnerable to quantum attacks</p>
+                    
+                    <p><strong>Quantum Solution (BB84):</strong><br>
+                    • Based on <span class="highlight">laws of physics</span><br>
+                    • IMPOSSIBLE to break (proven mathematically)<br>
+                    • Eavesdropping is DETECTABLE!</p>
+                    
+                    <p><strong>How BB84 Works:</strong></p>
+                    <div class="code-example">
+1. Alice sends qubits in random bases
+2. Bob measures in random bases
+3. They compare bases (public channel)
+4. Keep bits where bases matched
+5. Check for eavesdropping
+6. If secure → use as encryption key!
+                    </div>
+                    
+                    <p><strong>The Magic:</strong></p>
+                    <p>Any eavesdropper (Eve) MUST measure the qubits. But <span class="highlight">measurement disturbs quantum states</span>! 
+                    Alice and Bob can detect this disturbance and know the key is compromised!</p>
+                    
+                    <p><strong>Security Guarantees:</strong></p>
+                    <p>• <span class="highlight">Information-theoretic security</span><br>
+                    • <span class="highlight">Eavesdropping detection</span><br>
+                    • <span class="highlight">No computational assumptions</span><br>
+                    • <span class="highlight">Future-proof</span> against quantum computers!</p>
+                    
+                    <p><strong>Real Applications:</strong></p>
+                    <p>• <span class="highlight">Government</span> - Secure communications<br>
+                    • <span class="highlight">Banking</span> - Financial transactions<br>
+                    • <span class="highlight">Military</span> - Classified information<br>
+                    • <span class="highlight">Healthcare</span> - Patient data<br>
+                    • <span class="highlight">Critical Infrastructure</span> - Power grids</p>
+                    
+                    <div class="impact-box">
+                        <h4>🛰️ Real Example</h4>
+                        <p>China's Micius satellite demonstrated BB84 quantum key distribution over 1,200 km! 
+                        Commercial quantum networks exist in the US, EU, and Asia. This is REAL technology TODAY!</p>
+                    </div>
+                    
+                    <p><strong>The Future:</strong></p>
+                    <p>Quantum internet will enable global unhackable communication. China, USA, and EU are racing to build it!</p>
+                `,
+                viz: "🔐",
+                vizDesc: "Secure quantum key distribution in progress",
+                useCases: [
+                    { title: "Secure Communications", desc: "Government and military encrypted channels" },
+                    { title: "Financial Transfers", desc: "Unhackable banking transactions" },
+                    { title: "Cloud Security", desc: "Protect data centers from quantum attacks" }
+                ]
+            }
+        };
+
+        let currentApp = 'vqe';
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 30 + 's';
+                particle.style.animationDuration = (25 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function loadApplication(appName) {
+            currentApp = appName;
+            const app = applications[appName];
+            
+            // Update content
+            document.getElementById('applicationContent').innerHTML = app.content;
+            
+            // Update visualization
+            document.getElementById('vizContent').textContent = app.viz;
+            document.getElementById('vizDescription').textContent = app.vizDesc;
+            
+            // Update use cases
+            const useCasesHTML = app.useCases.map(uc => `
+                <div class="use-case">
+                    <div class="use-case-title">${uc.title}</div>
+                    <div>${uc.desc}</div>
+                </div>
+            `).join('');
+            document.getElementById('useCases').innerHTML = useCasesHTML;
+            
+            // Update active card
+            document.querySelectorAll('.app-card').forEach(card => card.classList.remove('active'));
+            event.target.closest('.app-card').classList.add('active');
+        }
+
+        function runApplication() {
+            const app = applications[currentApp];
+            alert(`🚀 Running ${app.title}!\n\nIn full implementation, this would:\n• Execute the quantum algorithm\n• Show real-time progress\n• Display results and metrics\n• Compare with classical approach\n• Visualize the quantum advantage\n\nLevel 5 brings quantum computing to real-world problems!`);
+        }
+
+        function showDetails() {
+            const details = {
+                vqe: "VQE Details:\n• Algorithm: Hybrid quantum-classical\n• Qubits needed: 4-20\n• Circuit depth: 50-200\n• Accuracy: Chemical accuracy (1.6 kcal/mol)\n• Use: Drug discovery, materials",
+                qaoa: "QAOA Details:\n• Algorithm: Approximate optimization\n• Qubits needed: Problem size\n• Circuit depth: p layers (10-50)\n• Quality: Near-optimal solutions\n• Use: Logistics, finance, scheduling",
+                qml: "QML Details:\n• Algorithm: Quantum kernel/VQC\n• Qubits needed: Data dimensionality\n• Circuit depth: 20-100\n• Advantage: Exponential feature space\n• Use: Classification, generation",
+                bb84: "BB84 Details:\n• Algorithm: Quantum key distribution\n• Qubits needed: Key length\n• Security: Information-theoretic\n• Distance: 100s of km (with repeaters)\n• Use: Secure communication"
+            };
+            alert(details[currentApp]);
+        }
+
+        window.onload = function() {
+            createParticles();
+            loadApplication('vqe');
+        };
+    </script>
+</body>
+</html>
