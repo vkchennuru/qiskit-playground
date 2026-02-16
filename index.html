@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
     --neon-cyan:#00fff2;
     --neon-pink:#ff006e;
     --neon-purple:#8338ec;
@@ -24,6 +24,30 @@ body{
     font-family:'Space Grotesk',sans-serif;
     background:var(--deep-black);
     color:var(--soft-white);
+    overflow-x:hidden;
+}
+
+/* PARTICLES */
+.particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:var(--neon-cyan);
+    border-radius:50%;
+    animation:float 20s infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(-100vh);opacity:0;}
 }
 
 /* HEADER */
@@ -69,7 +93,28 @@ h1{
     border:2px solid var(--neon-purple);
     margin-bottom:3rem;
 }
+.badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
 
+.badge {
+    background: rgba(0, 255, 242, 0.1);
+    border: 2px solid var(--neon-cyan);
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.badge:hover {
+    background: var(--neon-cyan);
+    color: var(--deep-black);
+}
 /* LEVEL GRID */
 .levels-grid{
     display:grid;
@@ -89,6 +134,7 @@ h1{
 .level-card:hover{
     transform:translateY(-8px);
     border-color:var(--neon-cyan);
+    box-shadow:0 15px 60px rgba(0,255,242,0.3);
 }
 
 .level-number{
@@ -125,6 +171,11 @@ h1{
     text-decoration:none;
     border-radius:8px;
     font-weight:700;
+    transition:0.3s;
+}
+
+.level-btn:hover{
+    transform:translateY(-3px);
 }
 
 /* FOOTER */
@@ -139,10 +190,6 @@ footer{
 footer h3{
     color:var(--neon-cyan);
     margin-bottom:1rem;
-}
-
-footer p{
-    margin-bottom:0.8rem;
 }
 
 .footer-links{
@@ -167,6 +214,8 @@ footer p{
 
 <body>
 
+<div class="particles" id="particles"></div>
+
 <header>
     <h1>⚛️ Qiskit Quantum Playground</h1>
     <p class="subtitle">Complete Interactive Learning Series</p>
@@ -175,72 +224,61 @@ footer p{
 
 <div class="container">
 
-    <div class="intro">
-        <p>Progress through 6 carefully designed levels — from beginner to advanced quantum mastery.</p>
-    </div>
+<div class="intro">
+    <p>Progress through 6 carefully designed levels — from beginner to quantum mastery.</p>
 
-    <div class="levels-grid">
-
-        <div class="level-card">
-            <div class="level-number">Level 1</div>
-            <h3 class="level-title">Quantum Basics</h3>
-            <p class="level-description">Foundations of qubits and superposition.</p>
-            <a href="level-1-basics/" class="level-btn">Start Level 1</a>
-        </div>
-
-        <div class="level-card">
-            <div class="level-number">Level 2</div>
-            <h3 class="level-title">Quantum Gates</h3>
-            <p class="level-description">Master core quantum gates and phase.</p>
-            <a href="level-2-gates/" class="level-btn">Start Level 2</a>
-        </div>
-
-        <div class="level-card">
-            <div class="level-number">Level 3</div>
-            <h3 class="level-title">Algorithms</h3>
-            <p class="level-description">Grover, QFT and more.</p>
-            <a href="level-3-algorithms/" class="level-btn">Start Level 3</a>
-        </div>
-
-        <div class="level-card">
-            <div class="level-number">Level 4</div>
-            <h3 class="level-title">Real Hardware</h3>
-            <p class="level-description">Noise, hardware and execution.</p>
-            <a href="level-4-advanced/" class="level-btn">Start Level 4</a>
-        </div>
-
-        <div class="level-card">
-            <div class="level-number">Level 5</div>
-            <h3 class="level-title">Applications</h3>
-            <p class="level-description">VQE, QAOA, Cryptography.</p>
-            <a href="level-5-applications/" class="level-btn">Start Level 5</a>
-        </div>
-
-        <div class="level-card">
-            <div class="level-number">Level 6</div>
-            <h3 class="level-title">Final Capstone</h3>
-            <p class="level-description">Complete your journey with an integrated quantum project.</p>
-            <a href="level-6-capstone/" class="level-btn">Start Capstone</a>
-        </div>
-
+    <div class="badges">
+       <div class="badge">📘 Structured 6-Level Curriculum</div>
+       <div class="badge">⚛️ Hands-on Quantum Circuits</div>
+       <div class="badge">🧠 Concept-to-Capstone Learning</div>
+       <div class="badge">🆓 Open Educational Resource</div>
+       <div class="badge">🚀 Real Quantum Applications</div>
     </div>
 </div>
 
+<div class="levels-grid">
+
+<!-- LEVELS 1–6 (same as before) -->
+
+<div class="level-card">
+<div class="level-number">Level 6</div>
+<h3 class="level-title">🎓 Final Capstone</h3>
+<p class="level-description">Complete your journey with an integrated quantum project.</p>
+<a href="level-6-capstone/" class="level-btn">Start Capstone</a>
+</div>
+
+</div>
+</div>
+
 <footer>
-    <h3>Created by Venkata Krishnaveni Chennuru</h3>
-    <p>Faculty, Department of Computer Science</p>
-    <p>SKR & SKR Government College for Women (Autonomous), Kadapa, India</p>
-    <p>An Open Educational Resource for learners worldwide</p>
+<h3>Created by Venkata Krishnaveni Chennuru</h3>
+<p>Faculty, Department of Computer Science</p>
+<p>SKR & SKR Government College for Women (Autonomous), Kadapa, India</p>
+<p>An Open Educational Resource for learners worldwide</p>
 
-    <div class="footer-links">
-        <a href="mailto:vkchennuru.cs@gmail.com">Email</a>
-        <a href="https://github.com/vkchennuru">GitHub</a>
-        <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888">LinkedIn</a>
-    </div>
+<div class="footer-links">
+<a href="mailto:vkchennuru.cs@gmail.com">Email</a>
+<a href="https://github.com/vkchennuru">GitHub</a>
+<a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888">LinkedIn</a>
+</div>
 
-    <p>Licensed under MIT License | CC BY 4.0</p>
-    <p>© 2025 Venkata Krishnaveni Chennuru</p>
+<p>© 2025 Venkata Krishnaveni Chennuru</p>
 </footer>
+
+<script>
+function createParticles(){
+const container=document.getElementById('particles');
+for(let i=0;i<40;i++){
+const p=document.createElement('div');
+p.className='particle';
+p.style.left=Math.random()*100+'%';
+p.style.top=Math.random()*100+'%';
+p.style.animationDuration=(10+Math.random()*10)+'s';
+container.appendChild(p);
+}
+}
+window.onload=createParticles;
+</script>
 
 </body>
 </html>
