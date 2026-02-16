@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Level 6: Quantum Games & Challenges - Qiskit Quantum Playground</title>
+    <title>Level 6: Final Capstone - Qiskit Quantum Playground</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,13 +11,11 @@
             --neon-pink: #ff006e;
             --neon-purple: #8338ec;
             --neon-yellow: #ffbe0b;
-            --neon-rainbow: linear-gradient(90deg, #ff006e, #ffbe0b, #06ffa5, #00fff2, #8338ec);
+            --neon-green: #06ffa5;
             --deep-black: #0d0221;
             --dark-purple: #1a0c3e;
             --soft-white: #f0f0f0;
             --gold: #ffd700;
-            --silver: #c0c0c0;
-            --bronze: #cd7f32;
         }
 
         * {
@@ -30,8 +28,7 @@
             font-family: 'Space Grotesk', sans-serif;
             background: var(--deep-black);
             color: var(--soft-white);
-            overflow-x: hidden;
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
         .particles {
@@ -44,50 +41,21 @@
 
         .particle {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
-            animation: float-particle 35s infinite;
+            animation: float 30s infinite;
         }
 
-        .particle:nth-child(5n+1) { background: #ff006e; box-shadow: 0 0 20px #ff006e; }
-        .particle:nth-child(5n+2) { background: #ffbe0b; box-shadow: 0 0 20px #ffbe0b; }
-        .particle:nth-child(5n+3) { background: #06ffa5; box-shadow: 0 0 20px #06ffa5; }
-        .particle:nth-child(5n+4) { background: #00fff2; box-shadow: 0 0 20px #00fff2; }
-        .particle:nth-child(5n+5) { background: #8338ec; box-shadow: 0 0 20px #8338ec; }
+        .particle:nth-child(3n) { background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
+        .particle:nth-child(3n+1) { background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple); }
+        .particle:nth-child(3n+2) { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
 
-        @keyframes float-particle {
-            0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(-80vw, 120vh) rotate(1080deg) scale(2.5); opacity: 0; }
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
-            padding: 2rem;
-            border-bottom: 3px solid;
-            border-image: var(--neon-rainbow) 1;
-            box-shadow: 0 10px 60px rgba(255, 0, 110, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 60%;
-            height: 200%;
-            background: conic-gradient(from 0deg, #ff006e, #ffbe0b, #06ffa5, #00fff2, #8338ec, #ff006e);
-            opacity: 0.15;
-            animation: rotate-rainbow 30s linear infinite;
-        }
-
-        @keyframes rotate-rainbow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(100vw, -100vh) scale(1.5); opacity: 0; }
         }
 
         .nav-bar {
@@ -96,7 +64,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--neon-purple);
+            border-bottom: 2px solid var(--gold);
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -109,405 +77,317 @@
         }
 
         .nav-link {
-            color: var(--neon-pink);
+            color: var(--gold);
             text-decoration: none;
             font-family: 'Fira Code', monospace;
             font-size: 0.9rem;
             padding: 0.5rem 1rem;
             border-radius: 5px;
             transition: all 0.3s ease;
-            border: 1px solid transparent;
         }
 
         .nav-link:hover {
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.4);
-            background: rgba(255, 0, 110, 0.1);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
         }
 
         .level-badge {
-            background: var(--neon-rainbow);
+            background: linear-gradient(135deg, var(--gold), #ffed4e);
             color: var(--deep-black);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 0.85rem;
-            animation: pulse-rainbow 3s ease-in-out infinite;
+            font-size: 0.9rem;
         }
 
-        @keyframes pulse-rainbow {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 0, 110, 0.8); }
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
         }
 
         h1 {
             font-size: 3.5rem;
-            font-weight: 700;
-            text-align: center;
-            background: var(--neon-rainbow);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--gold);
             margin-bottom: 1rem;
-            animation: rainbow-shift 5s linear infinite;
-            background-size: 200% 100%;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
 
-        @keyframes rainbow-shift {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
         }
 
-        .tagline {
-            text-align: center;
-            font-size: 1.3rem;
-            background: var(--neon-rainbow);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .badges {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: rgba(255, 0, 110, 0.15);
-            border: 2px solid var(--neon-pink);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
-            animation: badge-float 3s ease-in-out infinite;
-        }
-
-        .badge:nth-child(2) { animation-delay: 0.5s; border-color: var(--neon-yellow); }
-        .badge:nth-child(3) { animation-delay: 1s; border-color: #06ffa5; }
-        .badge:nth-child(4) { animation-delay: 1.5s; border-color: var(--neon-cyan); }
-
-        @keyframes badge-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        .completion-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid var(--gold);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--gold);
         }
 
         .container {
-            max-width: 1600px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
         }
 
-        .panel {
-            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+        .section {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.6), rgba(13, 2, 33, 0.8));
             border: 2px solid var(--neon-purple);
             border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.2);
         }
 
-        .panel:hover {
-            border-color: var(--neon-pink);
-            box-shadow: 0 15px 60px rgba(255, 0, 110, 0.4);
-            transform: translateY(-5px);
-        }
-
-        .panel-title {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.3rem;
-            color: var(--neon-pink);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
+        .section-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
             border-bottom: 2px solid var(--neon-purple);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .panel-title::before {
-            content: '🎮';
-            font-size: 1.5rem;
-            animation: game-bounce 1s ease-in-out infinite;
-        }
-
-        @keyframes game-bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(15deg); }
-        }
-
-        .full-width {
-            grid-column: 1 / -1;
-        }
-
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
-            margin-bottom: 2rem;
         }
 
-        .stat-box {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.15), rgba(131, 56, 236, 0.15));
-            border: 2px solid var(--neon-pink);
-            border-radius: 10px;
+        .section-icon {
+            font-size: 2.5rem;
+        }
+
+        .capstone-challenge {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--neon-cyan);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .capstone-challenge h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .challenge-task {
+            background: rgba(0, 255, 242, 0.05);
             padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            border-left: 3px solid var(--neon-cyan);
+        }
+
+        .challenge-task strong {
+            color: var(--neon-cyan);
+        }
+
+        .reflection-prompt {
+            background: rgba(131, 56, 236, 0.1);
+            border: 2px solid var(--neon-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .reflection-prompt h4 {
+            color: var(--neon-purple);
+            margin-bottom: 0.8rem;
+        }
+
+        .reflection-prompt p {
+            color: rgba(240, 240, 240, 0.9);
+            font-style: italic;
+        }
+
+        .mastery-checklist {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .checklist-category {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--neon-green);
+        }
+
+        .checklist-category h4 {
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .checklist-items {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(6, 255, 165, 0.05);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(6, 255, 165, 0.15);
+            transform: translateX(10px);
+        }
+
+        .check-icon {
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            min-width: 30px;
+        }
+
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pathway-card {
+            background: rgba(255, 190, 11, 0.1);
+            border: 2px solid var(--neon-yellow);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .pathway-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 190, 11, 0.3);
+            border-color: var(--gold);
+        }
+
+        .pathway-card h4 {
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .pathway-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pathway-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pathway-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--neon-yellow);
+        }
+
+        .resource-list {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .resource-item {
+            background: rgba(0, 255, 242, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .resource-item h5 {
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-item a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+
+        .thank-you-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 190, 11, 0.1));
+            border: 3px solid var(--gold);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .thank-you-box h3 {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .thank-you-box p {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .final-message {
+            font-size: 1.4rem;
+            color: var(--neon-cyan);
+            font-weight: 700;
+            margin-top: 2rem;
+        }
+
+        .journey-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--neon-purple);
+            border-radius: 10px;
+            padding: 1.5rem;
             text-align: center;
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            background: var(--neon-rainbow);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 0.85rem;
             color: var(--soft-white);
-            margin-top: 0.5rem;
-        }
-
-        .challenge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .challenge-card {
-            background: rgba(255, 0, 110, 0.1);
-            border: 2px solid var(--neon-pink);
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .challenge-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--neon-rainbow);
-        }
-
-        .challenge-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 15px 50px rgba(255, 0, 110, 0.5);
-            border-color: var(--neon-yellow);
-        }
-
-        .challenge-card.completed {
-            background: linear-gradient(135deg, rgba(6, 255, 165, 0.15), rgba(0, 255, 242, 0.1));
-            border-color: #06ffa5;
-        }
-
-        .challenge-card.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .challenge-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .challenge-title {
-            color: var(--neon-pink);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .challenge-desc {
-            color: rgba(240, 240, 240, 0.85);
             font-size: 0.9rem;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
-        }
-
-        .challenge-difficulty {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .diff-easy { background: rgba(6, 255, 165, 0.2); color: #06ffa5; border: 1px solid #06ffa5; }
-        .diff-medium { background: rgba(255, 190, 11, 0.2); color: var(--neon-yellow); border: 1px solid var(--neon-yellow); }
-        .diff-hard { background: rgba(255, 0, 110, 0.2); color: var(--neon-pink); border: 1px solid var(--neon-pink); }
-        .diff-expert { background: rgba(131, 56, 236, 0.2); color: var(--neon-purple); border: 1px solid var(--neon-purple); }
-
-        .achievement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-        }
-
-        .achievement {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--neon-purple);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .achievement.unlocked {
-            border-color: var(--gold);
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 190, 11, 0.1));
-            animation: achievement-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes achievement-glow {
-            0%, 100% { box-shadow: 0 0 10px var(--gold); }
-            50% { box-shadow: 0 0 25px var(--gold); }
-        }
-
-        .achievement-icon {
-            font-size: 2rem;
-            filter: grayscale(100%);
-        }
-
-        .achievement.unlocked .achievement-icon {
-            filter: grayscale(0%);
-            animation: trophy-bounce 0.5s ease-in-out;
-        }
-
-        @keyframes trophy-bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(10deg); }
-        }
-
-        .achievement-name {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            color: var(--soft-white);
-        }
-
-        .leaderboard {
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            padding: 1rem;
-        }
-
-        .leaderboard-entry {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
-            background: rgba(255, 0, 110, 0.1);
-            border-left: 4px solid var(--neon-pink);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .leaderboard-entry:hover {
-            background: rgba(255, 0, 110, 0.2);
-            transform: translateX(5px);
-        }
-
-        .leaderboard-entry:nth-child(1) { border-color: var(--gold); }
-        .leaderboard-entry:nth-child(2) { border-color: var(--silver); }
-        .leaderboard-entry:nth-child(3) { border-color: var(--bronze); }
-
-        .rank {
-            font-size: 1.5rem;
-            font-weight: 700;
-            width: 40px;
-        }
-
-        .rank:nth-child(1) { color: var(--gold); }
-        .rank:nth-child(2) { color: var(--silver); }
-        .rank:nth-child(3) { color: var(--bronze); }
-
-        .congratulations {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.2), rgba(255, 190, 11, 0.2));
-            border: 3px solid;
-            border-image: var(--neon-rainbow) 1;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .congratulations h2 {
-            font-size: 2.5rem;
-            background: var(--neon-rainbow);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, var(--neon-pink), #ff4477);
-            border: none;
-            padding: 1rem 2.5rem;
-            border-radius: 10px;
-            color: white;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 0 6px 25px rgba(255, 0, 110, 0.4);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(255, 0, 110, 0.6);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
         footer {
             background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
-            border-top: 3px solid;
-            border-image: var(--neon-rainbow) 1;
+            border-top: 3px solid var(--gold);
             padding: 3rem 2rem;
             text-align: center;
-            margin-top: 4rem;
         }
 
         .footer-content h3 {
-            background: var(--neon-rainbow);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.5rem;
+            color: var(--gold);
             margin-bottom: 1rem;
         }
 
@@ -520,35 +400,25 @@
         }
 
         .footer-links a {
-            color: var(--neon-yellow);
+            color: var(--neon-cyan);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px rgba(255, 0, 110, 0.6);
+            color: var(--gold);
         }
 
-        @media (max-width: 968px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .challenge-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .section { padding: 2rem 1.5rem; }
+            .pathway-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
 
-    <!-- Navigation Bar -->
     <div class="nav-bar">
         <div class="nav-links">
             <a href="../" class="nav-link">🏠 Home</a>
@@ -557,309 +427,483 @@
             <a href="../level-3-algorithms/" class="nav-link">Level 3</a>
             <a href="../level-4-hardware/" class="nav-link">Level 4</a>
             <a href="../level-5-applications/" class="nav-link">Level 5</a>
-            <span class="level-badge">Level 6: Games & Challenges</span>
+            <span class="level-badge">Level 6: Final Capstone</span>
         </div>
         <div class="nav-links">
-            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ GitHub</a>
         </div>
     </div>
 
-    <!-- Header -->
     <header>
-        <h1>🎮 Level 6: Quantum Games & Challenges</h1>
-        <div class="tagline">Master Through Play!</div>
-        <div class="badges">
-            <div class="badge">🎯 30+ Challenges</div>
-            <div class="badge">🏆 Achievements</div>
-            <div class="badge">📊 Leaderboard</div>
-            <div class="badge">🎓 Master Certification</div>
-        </div>
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <p style="background: var(--neon-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-family: 'Fira Code', monospace; font-size: 0.9rem; font-weight: 700;">
-                Created by Venkata Krishnaveni Chennuru<br>
-                SKR & SKR GCW(A), Kadapa
-            </p>
-        </div>
+        <h1>🎓 Level 6: Final Capstone</h1>
+        <div class="subtitle">Completing Your Quantum Computing Journey</div>
+               <p style="margin-top: 1.5rem; color: var(--neon-cyan); font-family: 'Fira Code', monospace;">
+            Created by <strong>Venkata Krishnaveni Chennuru</strong><br>
+            SKR & SKR GCW(A), Kadapa
+        </p>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- Congratulations -->
-        <div class="panel full-width">
-            <div class="congratulations">
-                <h2>🎉 CONGRATULATIONS! 🎉</h2>
-                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
-                    You've completed Levels 1-5 and mastered quantum computing fundamentals!
+        <!-- 1. Final Capstone Challenge -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Final Capstone Challenge
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Apply everything you've learned in this comprehensive challenge that brings together all 6 levels of knowledge.
+            </p>
+
+            <div class="capstone-challenge">
+                <h3>🔬 Design a Quantum Solution</h3>
+                <p style="margin-bottom: 1.5rem;">
+                    Choose one of these real-world problems and design a quantum computing approach to solve it:
                 </p>
-                <p style="font-size: 1rem;">
-                    Welcome to the final level - where you prove your mastery through fun challenges, 
-                    earn achievements, and compete on the leaderboard!
+
+                <div class="challenge-task">
+                    <strong>Option 1: Drug Discovery</strong>
+                    <p>Design a VQE circuit to calculate the ground state energy of a simple molecule (H₂ or LiH). 
+                    Explain which gates you'll use, why, and how you'll handle noise on real hardware.</p>
+                </div>
+
+                <div class="challenge-task">
+                    <strong>Option 2: Optimization Problem</strong>
+                    <p>Create a QAOA circuit to solve a small traveling salesman problem (4 cities). 
+                    Show your circuit design, explain the mixer and cost Hamiltonians, and estimate the quantum advantage.</p>
+                </div>
+
+                <div class="challenge-task">
+                    <strong>Option 3: Quantum Search</strong>
+                    <p>Implement Grover's algorithm to search a database of 16 items. 
+                    Calculate the number of iterations needed, design the oracle, and compare with classical search.</p>
+                </div>
+
+                <div class="challenge-task">
+                    <strong>Option 4: Secure Communication</strong>
+                    <p>Design a BB84 quantum key distribution protocol for two parties. 
+                    Explain how eavesdropping would be detected and why it's impossible to break.</p>
+                </div>
+            </div>
+
+            <div style="background: rgba(255, 215, 0, 0.1); border: 2px solid var(--gold); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
+                <h4 style="color: var(--gold); margin-bottom: 1rem;">📝 Your Capstone Should Include:</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.5rem 0;">✓ Circuit diagram showing all gates</li>
+                    <li style="padding: 0.5rem 0;">✓ Explanation of why you chose each gate</li>
+                    <li style="padding: 0.5rem 0;">✓ Discussion of noise and error mitigation</li>
+                    <li style="padding: 0.5rem 0;">✓ Comparison with classical approach</li>
+                    <li style="padding: 0.5rem 0;">✓ Real-world impact analysis</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. Reflection Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">💭</span>
+                Reflection & Growth
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Take a moment to reflect on your quantum computing journey. How far you've come!
+            </p>
+
+            <div class="journey-stats">
+                <div class="stat-card">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Levels Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">70+</div>
+                    <div class="stat-label">Hours of Learning</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">30+</div>
+                    <div class="stat-label">Concepts Mastered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Completion</div>
+                </div>
+            </div>
+
+            <div class="reflection-prompt">
+                <h4>🌱 When You Started...</h4>
+                <p>Quantum computing probably seemed mysterious and complex. Terms like "superposition" and "entanglement" 
+                were just words. Building quantum circuits seemed impossible.</p>
+            </div>
+
+            <div class="reflection-prompt">
+                <h4>🎓 Now You Can...</h4>
+                <p>Explain how qubits work. Design quantum circuits with multiple gates. Understand famous quantum algorithms. 
+                Know why quantum computers are noisy and how to mitigate errors. See where quantum computing solves real problems.</p>
+            </div>
+
+            <div class="reflection-prompt">
+                <h4>🚀 This Transformation...</h4>
+                <p>From complete beginner to quantum computing literacy in 6 levels. You've built knowledge systematically, 
+                from foundations to advanced applications. That's an incredible achievement!</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(131, 56, 236, 0.2), rgba(255, 0, 110, 0.1)); border: 2px solid var(--neon-purple); padding: 2rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
+                <p style="font-size: 1.3rem; color: var(--neon-cyan); font-weight: 600;">
+                    "You are no longer a beginner. You are a quantum computing learner with real understanding."
                 </p>
             </div>
-        </div>
+        </section>
 
-        <!-- Player Stats -->
-        <div class="panel full-width">
-            <div class="panel-title">📊 Your Progress</div>
-            
-            <div class="stats-bar">
-                <div class="stat-box">
-                    <div class="stat-value">15</div>
-                    <div class="stat-label">Challenges Completed</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Achievements Unlocked</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">1,250</div>
-                    <div class="stat-label">Total Points</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value">Master</div>
-                    <div class="stat-label">Rank</div>
-                </div>
-            </div>
-        </div>
+        <!-- 3. Mastery Checklist -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">✅</span>
+                Mastery Checklist
+            </h2>
 
-        <!-- Challenges -->
-        <div class="panel full-width">
-            <div class="panel-title">🎯 Quantum Challenges</div>
-            
-            <div class="challenge-grid">
-                <!-- Beginner Challenges -->
-                <div class="challenge-card completed" onclick="startChallenge('superposition')">
-                    <div class="challenge-icon">🌟</div>
-                    <div class="challenge-title">Superposition Master</div>
-                    <div class="challenge-desc">Create equal superposition on all qubits</div>
-                    <span class="challenge-difficulty diff-easy">Easy • 50 pts</span>
-                </div>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Review what you've mastered across all 6 levels. Each checkmark represents hours of learning and understanding.
+            </p>
 
-                <div class="challenge-card completed" onclick="startChallenge('bellstate')">
-                    <div class="challenge-icon">🔗</div>
-                    <div class="challenge-title">Bell State Builder</div>
-                    <div class="challenge-desc">Create perfect entanglement between qubits</div>
-                    <span class="challenge-difficulty diff-easy">Easy • 75 pts</span>
-                </div>
-
-                <div class="challenge-card completed" onclick="startChallenge('ghz')">
-                    <div class="challenge-icon">🎭</div>
-                    <div class="challenge-title">GHZ State Challenge</div>
-                    <div class="challenge-desc">Entangle 3 qubits in GHZ state</div>
-                    <span class="challenge-difficulty diff-medium">Medium • 100 pts</span>
-                </div>
-
-                <!-- Intermediate Challenges -->
-                <div class="challenge-card" onclick="startChallenge('teleport')">
-                    <div class="challenge-icon">📡</div>
-                    <div class="challenge-title">Quantum Teleportation</div>
-                    <div class="challenge-desc">Teleport a qubit using entanglement</div>
-                    <span class="challenge-difficulty diff-medium">Medium • 150 pts</span>
-                </div>
-
-                <div class="challenge-card" onclick="startChallenge('grover3')">
-                    <div class="challenge-icon">🔍</div>
-                    <div class="challenge-title">Grover's Search</div>
-                    <div class="challenge-desc">Find the marked item in 3-qubit database</div>
-                    <span class="challenge-difficulty diff-medium">Medium • 175 pts</span>
-                </div>
-
-                <div class="challenge-card" onclick="startChallenge('deutsch')">
-                    <div class="challenge-icon">🎯</div>
-                    <div class="challenge-title">Deutsch-Jozsa</div>
-                    <div class="challenge-desc">Determine if function is constant or balanced</div>
-                    <span class="challenge-difficulty diff-medium">Medium • 150 pts</span>
-                </div>
-
-                <!-- Advanced Challenges -->
-                <div class="challenge-card locked" onclick="startChallenge('qft')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">QFT Implementation</div>
-                    <div class="challenge-desc">Build a 4-qubit QFT circuit</div>
-                    <span class="challenge-difficulty diff-hard">Hard • 250 pts</span>
-                </div>
-
-                <div class="challenge-card locked" onclick="startChallenge('vqe')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">VQE Optimizer</div>
-                    <div class="challenge-desc">Find ground state energy of H₂</div>
-                    <span class="challenge-difficulty diff-hard">Hard • 300 pts</span>
-                </div>
-
-                <div class="challenge-card locked" onclick="startChallenge('error')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">Error Correction</div>
-                    <div class="challenge-desc">Implement bit-flip error correction</div>
-                    <span class="challenge-difficulty diff-hard">Hard • 275 pts</span>
-                </div>
-
-                <!-- Expert Challenges -->
-                <div class="challenge-card locked" onclick="startChallenge('shor')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">Shor's Algorithm</div>
-                    <div class="challenge-desc">Factor 15 using quantum period finding</div>
-                    <span class="challenge-difficulty diff-expert">Expert • 500 pts</span>
-                </div>
-
-                <div class="challenge-card locked" onclick="startChallenge('surface')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">Surface Code</div>
-                    <div class="challenge-desc">Implement surface code error correction</div>
-                    <span class="challenge-difficulty diff-expert">Expert • 600 pts</span>
-                </div>
-
-                <div class="challenge-card locked" onclick="startChallenge('ultimate')">
-                    <div class="challenge-icon">🔒</div>
-                    <div class="challenge-title">Ultimate Challenge</div>
-                    <div class="challenge-desc">Master puzzle combining all concepts</div>
-                    <span class="challenge-difficulty diff-expert">Expert • 1000 pts</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Achievements -->
-        <div class="panel">
-            <div class="panel-title">🏆 Achievements</div>
-            
-            <div class="achievement-grid">
-                <div class="achievement unlocked">
-                    <div class="achievement-icon">🌟</div>
-                    <div class="achievement-name">First Steps</div>
-                </div>
-
-                <div class="achievement unlocked">
-                    <div class="achievement-icon">🔗</div>
-                    <div class="achievement-name">Entangled</div>
-                </div>
-
-                <div class="achievement unlocked">
-                    <div class="achievement-icon">🎯</div>
-                    <div class="achievement-name">Accurate</div>
-                </div>
-
-                <div class="achievement unlocked">
-                    <div class="achievement-icon">⚡</div>
-                    <div class="achievement-name">Speed Runner</div>
-                </div>
-
-                <div class="achievement">
-                    <div class="achievement-icon">🔥</div>
-                    <div class="achievement-name">On Fire</div>
-                </div>
-
-                <div class="achievement">
-                    <div class="achievement-icon">🧠</div>
-                    <div class="achievement-name">Genius</div>
-                </div>
-
-                <div class="achievement">
-                    <div class="achievement-icon">💎</div>
-                    <div class="achievement-name">Perfectionist</div>
-                </div>
-
-                <div class="achievement">
-                    <div class="achievement-icon">👑</div>
-                    <div class="achievement-name">Quantum King</div>
-                </div>
-
-                <div class="achievement">
-                    <div class="achievement-icon">🎓</div>
-                    <div class="achievement-name">Master</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Leaderboard -->
-        <div class="panel">
-            <div class="panel-title">📊 Global Leaderboard</div>
-            
-            <div class="leaderboard">
-                <div class="leaderboard-entry">
-                    <span class="rank" style="color: var(--gold);">🥇</span>
-                    <span>QuantumMaster</span>
-                    <span style="color: var(--gold); font-weight: 700;">5,840 pts</span>
-                </div>
-
-                <div class="leaderboard-entry">
-                    <span class="rank" style="color: var(--silver);">🥈</span>
-                    <span>QubitNinja</span>
-                    <span style="color: var(--silver); font-weight: 700;">4,725 pts</span>
-                </div>
-
-                <div class="leaderboard-entry">
-                    <span class="rank" style="color: var(--bronze);">🥉</span>
-                    <span>EntanglementPro</span>
-                    <span style="color: var(--bronze); font-weight: 700;">3,960 pts</span>
-                </div>
-
-                <div class="leaderboard-entry">
-                    <span class="rank">4</span>
-                    <span>AlgorithmAce</span>
-                    <span style="font-weight: 700;">2,840 pts</span>
-                </div>
-
-                <div class="leaderboard-entry">
-                    <span class="rank">5</span>
-                    <span>CircuitChampion</span>
-                    <span style="font-weight: 700;">2,350 pts</span>
-                </div>
-
-                <div class="leaderboard-entry" style="border-color: var(--neon-yellow); background: rgba(255, 190, 11, 0.15);">
-                    <span class="rank">42</span>
-                    <span style="color: var(--neon-yellow); font-weight: 700;">YOU</span>
-                    <span style="color: var(--neon-yellow); font-weight: 700;">1,250 pts</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Master Certification -->
-        <div class="panel full-width">
-            <div class="panel-title">🎓 Master Certification</div>
-            
-            <div style="text-align: center; padding: 2rem;">
-                <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">
-                    Complete all challenges to earn your <span style="color: var(--gold); font-weight: 700;">Quantum Computing Master</span> certification!
-                </p>
-                
-                <div style="background: rgba(255, 215, 0, 0.1); border: 2px solid var(--gold); border-radius: 10px; padding: 2rem; margin: 2rem auto; max-width: 600px;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
-                    <div style="font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">MASTER CERTIFICATE</div>
-                    <div style="margin: 1rem 0;">
-                        <strong>Progress: 15/30 Challenges</strong><br>
-                        <div style="background: rgba(0, 0, 0, 0.5); height: 20px; border-radius: 10px; margin: 0.5rem 0; overflow: hidden;">
-                            <div style="background: var(--neon-rainbow); height: 100%; width: 50%; transition: width 1s;"></div>
+            <div class="mastery-checklist">
+                <div class="checklist-category">
+                    <h4>🌟 Level 1: Quantum Foundations</h4>
+                    <div class="checklist-items">
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Understanding qubits and quantum states</span>
                         </div>
-                        50% Complete
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum superposition and measurement</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum entanglement and Bell states</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Basic gates: H, X, CNOT</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="controls">
-                    <button class="btn" onclick="viewCertificate()">👁️ Preview Certificate</button>
-                    <button class="btn btn-secondary" onclick="shareProgress()">📤 Share Progress</button>
+                <div class="checklist-category">
+                    <h4>💚 Level 2: Quantum Gates Mastery</h4>
+                    <div class="checklist-items">
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Pauli gates: X, Y, Z</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Phase gates: S, T, and their adjoints</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Multi-qubit gates: SWAP, CZ</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum phase and Bloch sphere</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>4-qubit circuit design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🧡 Level 3: Quantum Algorithms</h4>
+                    <div class="checklist-items">
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Grover's search algorithm</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum Fourier Transform (QFT)</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Deutsch-Jozsa algorithm</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Simon's and Bernstein-Vazirani algorithms</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum advantage understanding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>💙 Level 4: Real Hardware & Noise</h4>
+                    <div class="checklist-items">
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum noise sources and types</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Decoherence (T1) and dephasing (T2)</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Gate errors and measurement errors</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Error mitigation techniques</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>NISQ era understanding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>💜 Level 5: Quantum Applications</h4>
+                    <div class="checklist-items">
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>VQE for quantum chemistry</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>QAOA for optimization problems</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Quantum machine learning concepts</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>BB84 quantum cryptography</span>
+                        </div>
+                        <div class="checklist-item">
+                            <span class="check-icon">✓</span>
+                            <span>Real-world quantum impact</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div style="background: rgba(6, 255, 165, 0.1); border: 2px solid var(--neon-green); padding: 2rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
+                <p style="font-size: 1.2rem; color: var(--neon-green); font-weight: 600;">
+                    🎉 Complete Mastery: 30+ Quantum Computing Concepts 🎉
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. Next Steps Guidance -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🚀</span>
+                Next Steps: Your Quantum Future
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                You've completed the playground, but your quantum journey is just beginning. Here's your roadmap forward:
+            </p>
+
+            <div class="pathway-grid">
+                <div class="pathway-card">
+                    <h4>🎓 Deepen Your Knowledge</h4>
+                    <ul>
+                        <li>Complete IBM Qiskit textbook</li>
+                        <li>Take advanced online courses</li>
+                        <li>Read quantum computing papers</li>
+                        <li>Study quantum error correction</li>
+                        <li>Learn Shor's algorithm</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-card">
+                    <h4>💻 Build & Experiment</h4>
+                    <ul>
+                        <li>Use IBM Quantum computers</li>
+                        <li>Create your own algorithms</li>
+                        <li>Contribute to Qiskit</li>
+                        <li>Build quantum projects</li>
+                        <li>Participate in hackathons</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-card">
+                    <h4>👥 Join the Community</h4>
+                    <ul>
+                        <li>Join Qiskit Slack workspace</li>
+                        <li>Follow quantum researchers</li>
+                        <li>Attend quantum conferences</li>
+                        <li>Participate in forums</li>
+                        <li>Network with professionals</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-card">
+                    <h4>📚 Recommended Resources</h4>
+                    <ul>
+                        <li>Qiskit documentation</li>
+                        <li>Quantum Country tutorials</li>
+                        <li>Nielsen & Chuang textbook</li>
+                        <li>arXiv quantum papers</li>
+                        <li>YouTube quantum channels</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-card">
+                    <h4>🎯 Career Opportunities</h4>
+                    <ul>
+                        <li>Quantum software engineer</li>
+                        <li>Quantum algorithm researcher</li>
+                        <li>Quantum hardware engineer</li>
+                        <li>Quantum educator</li>
+                        <li>Quantum consultant</li>
+                    </ul>
+                </div>
+
+                <div class="pathway-card">
+                    <h4>🌟 Share & Teach</h4>
+                    <ul>
+                        <li>Write quantum tutorials</li>
+                        <li>Create educational content</li>
+                        <li>Mentor other learners</li>
+                        <li>Give presentations</li>
+                        <li>Start a quantum blog</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="resource-list" style="margin-top: 3rem;">
+                <h3 style="color: var(--neon-cyan); margin-bottom: 1.5rem;">🔗 Essential Links to Continue Learning</h3>
+                
+                <div class="resource-item">
+                    <h5>IBM Quantum Experience</h5>
+                    <p>Access real quantum computers and run your circuits: 
+                    <a href="https://quantum-computing.ibm.com/" target="_blank">quantum-computing.ibm.com</a></p>
+                </div>
+
+                <div class="resource-item">
+                    <h5>Qiskit Textbook</h5>
+                    <p>Comprehensive quantum computing course with interactive exercises: 
+                    <a href="https://qiskit.org/learn/" target="_blank">qiskit.org/learn</a></p>
+                </div>
+
+                <div class="resource-item">
+                    <h5>Qiskit Community</h5>
+                    <p>Join discussions, ask questions, and connect with quantum enthusiasts: 
+                    <a href="https://qisk.it/join-slack" target="_blank">Qiskit Slack</a></p>
+                </div>
+
+                <div class="resource-item">
+                    <h5>Quantum Algorithm Zoo</h5>
+                    <p>Comprehensive catalog of quantum algorithms: 
+                    <a href="https://quantumalgorithmzoo.org/" target="_blank">quantumalgorithmzoo.org</a></p>
+                </div>
+
+                <div class="resource-item">
+                    <h5>Quantum Open Source Foundation</h5>
+                    <p>Discover and contribute to quantum open source projects: 
+                    <a href="https://qosf.org/" target="_blank">qosf.org</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Thank You Message -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🙏</span>
+                Thank You
+            </h2>
+
+            <div class="thank-you-box">
+                <h3>Thank You for Learning with Us! 🌟</h3>
+                
+                <p>
+                    You've completed an incredible journey through quantum computing. From knowing nothing about qubits 
+                    to understanding advanced quantum algorithms and real-world applications — that's remarkable growth!
+                </p>
+
+                <p>
+                    Thank you for choosing the <strong>Qiskit Quantum Playground</strong> as your learning platform. 
+                    Thank you for your dedication, curiosity, and perseverance through 70+ hours of complex material.
+                </p>
+
+                <p>
+                    You invested your time in learning one of the most cutting-edge fields in technology. 
+                    That shows vision, ambition, and commitment to growth.
+                </p>
+<div style="margin: 2rem 0; padding: 1.5rem; border: 2px solid var(--gold); border-radius: 12px; background: rgba(255, 215, 0, 0.1); text-align: center;">
+    <p style="font-size: 1.3rem; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">
+        ⭐ Completion Achieved ⭐
+    </p>
+    <p style="font-size: 1.05rem; color: var(--soft-white);">
+        You have successfully completed all 6 levels of the Qiskit Quantum Playground.
+    </p>
+</div>
+                <p class="final-message">
+                    The quantum revolution is happening now.<br>
+                    You're ready to be part of it! 🚀
+                </p>
+
+                <p style="margin-top: 2rem; font-size: 1.1rem;">
+                    <strong>Go forth and build something amazing with quantum computing!</strong>
+                </p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(131, 56, 236, 0.2), rgba(0, 255, 242, 0.1)); border: 2px solid var(--neon-cyan); padding: 2rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
+                <p style="font-size: 1.3rem; color: var(--gold); margin-bottom: 1rem;">
+                    <strong>"From Curiosity to Competence"</strong>
+                </p>
+                <p style="font-size: 1.1rem; color: var(--soft-white);">
+                    From Curiosity to Competence
+
+You began with questions.
+You now understand the answers.
+
+You started with simple qubits and basic gates.
+You now think in algorithms, noise models, and real-world applications.
+
+That transformation matters.
+
+Quantum computing is no longer abstract to you.
+It is something you can build, analyze, and explain.
+
+The playground ends here —
+but your journey does not.
+
+Keep learning.
+Keep building.
+Stay curious.
+
+The quantum future needs learners like you. ⚛️
+                </p>
+                <p style="font-size: 1.2rem; color: var(--neon-cyan); margin-top: 1.5rem; font-weight: 600;">
+                    Congratulations on completing your quantum journey! 🎉⚛️
+                </p>
+            </div>
+        </section>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <h3>Qiskit Quantum Playground</h3>
             <p style="color: var(--soft-white); margin: 1rem 0;">
+                Created by <strong>Venkata Krishnaveni Chennuru</strong><br>
                 Faculty, Department of Computer Science<br>
                 SKR & SKR Government College for Women (Autonomous)<br>
                 Kadapa, Andhra Pradesh, India
-            </p>
-            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
-                Level 6 of the Qiskit Quantum Playground Series<br>
-                An Open Educational Resource for students worldwide
             </p>
             
             <div class="footer-links">
                 <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
                 <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
                 <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
-                <a href="../">🏠 Back to Main</a>
+                <a href="../">🏠 Back to Home</a>
             </div>
 
             <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
@@ -867,18 +911,12 @@
                 Free to use, modify, and share • Give credit when sharing
             </p>
 
-            <p style="background: var(--neon-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 2rem; font-size: 1.2rem; font-weight: 700;">
-                "Play, learn, master - you're a quantum computing expert!" 🎮🏆
-            </p>
-
-            <div style="margin-top: 2rem; padding: 2rem; background: rgba(255, 0, 110, 0.1); border: 2px solid var(--neon-pink); border-radius: 15px;">
-                <h4 style="color: var(--neon-yellow); margin-bottom: 1rem;">🎉 SERIES COMPLETE! 🎉</h4>
-                <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                    Congratulations on completing all 6 levels of the Qiskit Quantum Playground!
+            <div style="margin-top: 2rem; padding: 2rem; background: rgba(255, 215, 0, 0.1); border: 2px solid var(--gold); border-radius: 10px;">
+                <p style="color: var(--gold); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">
+                    6 Levels • 70+ Hours • Complete Mastery
                 </p>
-                <p>
-                    You've mastered quantum computing from basics to advanced applications.<br>
-                    Share your achievement and inspire others to learn quantum computing!
+                <p style="color: var(--soft-white);">
+                    Thank you for being part of the quantum education revolution! 🌍⚛️
                 </p>
             </div>
         </div>
@@ -887,61 +925,15 @@
     <script>
         function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 35 + 's';
-                particle.style.animationDuration = (30 + Math.random() * 10) + 's';
+                particle.style.animationDelay = Math.random() * 30 + 's';
+                particle.style.animationDuration = (25 + Math.random() * 10) + 's';
                 container.appendChild(particle);
             }
-        }
-
-        function startChallenge(challengeName) {
-            const messages = {
-                superposition: "🌟 Superposition Master Challenge\n\nBuild a circuit that creates equal superposition on all qubits!\n\nGoal: |ψ⟩ = (|00⟩ + |01⟩ + |10⟩ + |11⟩) / 2\n\nIn full implementation:\n• Interactive circuit builder\n• Real-time validation\n• Hints system\n• Step-by-step solution\n• Points and achievements!",
-                bellstate: "🔗 Bell State Builder Challenge\n\nCreate a maximally entangled Bell state!\n\nGoal: |Φ+⟩ = (|00⟩ + |11⟩) / √2\n\nIn full implementation:\n• Drag-and-drop gates\n• Visual entanglement indicator\n• Success animation\n• Unlock next challenge!",
-                ghz: "🎭 GHZ State Challenge\n\nCreate the 3-qubit GHZ state!\n\nGoal: |GHZ⟩ = (|000⟩ + |111⟩) / √2\n\nThis challenge requires:\n• H gate on first qubit\n• CNOT gates to entangle\n• Perfect tripartite entanglement!",
-                teleport: "📡 Quantum Teleportation\n\n🔒 Unlock by completing 5 challenges first!\n\nTeleport a quantum state using entanglement.\nThis is the real quantum teleportation protocol!",
-                ultimate: "🏆 ULTIMATE CHALLENGE\n\n🔒 Complete all other challenges to unlock!\n\nThis combines everything:\n• Superposition\n• Entanglement\n• Algorithms\n• Error correction\n• Optimization\n\nOnly true masters can solve this!"
-            };
-
-            alert(messages[challengeName] || "Challenge coming in full version!\n\n30+ interactive quantum puzzles with:\n• Circuit builder\n• Validation\n• Hints\n• Solutions\n• Achievements\n• Leaderboard!");
-        }
-
-        function viewCertificate() {
-            alert("🎓 QUANTUM COMPUTING MASTER CERTIFICATE\n\n" +
-                  "This certifies that\n\n" +
-                  "STUDENT NAME\n\n" +
-                  "Has successfully completed all 6 levels of the\n" +
-                  "Qiskit Quantum Playground Series\n\n" +
-                  "Demonstrating mastery of:\n" +
-                  "• Quantum Mechanics Fundamentals\n" +
-                  "• Quantum Gates and Circuits\n" +
-                  "• Quantum Algorithms\n" +
-                  "• Real Hardware Understanding\n" +
-                  "• Practical Quantum Applications\n" +
-                  "• Problem-Solving Excellence\n\n" +
-                  "Total Learning Hours: 70+\n" +
-                  "Challenges Completed: 30/30\n\n" +
-                  "Certified Quantum Computing Expert\n\n" +
-                  "In full version:\n" +
-                  "• Download as PDF\n" +
-                  "• Share on LinkedIn\n" +
-                  "• Add to resume\n" +
-                  "• Verified digital badge!");
-        }
-
-        function shareProgress() {
-            alert("📤 Share Your Progress!\n\n" +
-                  "In full implementation:\n" +
-                  "• Share to Twitter\n" +
-                  "• Share to LinkedIn\n" +
-                  "• Download progress card\n" +
-                  "• Generate achievement badge\n" +
-                  "• Get unique profile URL\n\n" +
-                  "Show the world you're mastering quantum computing!");
         }
 
         window.onload = function() {
