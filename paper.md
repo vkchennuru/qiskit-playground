@@ -10,7 +10,7 @@ tags:
   - quantum circuits
 authors:
   - name: Venkata Krishnaveni Chennuru
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-2209-483X
     affiliation: 1
 affiliations:
  - name: Department of Computer Science, SKR & SKR Government College for Women (Autonomous), Kadapa, Andhra Pradesh, India
@@ -94,6 +94,6 @@ By making quantum computing education accessible, interactive, and comprehensive
 
 # Acknowledgements
 
-The author acknowledges the inspiration drawn from IBM's Qiskit framework and the broader quantum computing education community. This work was supported by SKR & SKR Government College for Women (Autonomous), Kadapa, Andhra Pradesh, India.
+The author acknowledges the inspiration drawn from IBM's Qiskit framework and the broader quantum computing education community. 
 
 # References
