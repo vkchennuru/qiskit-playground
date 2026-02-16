@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4: Real Hardware & Noise - Qiskit Quantum Playground</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00fff2;
+            --neon-pink: #ff006e;
+            --neon-purple: #8338ec;
+            --neon-yellow: #ffbe0b;
+            --neon-red: #ff006e;
+            --neon-blue: #0096ff;
+            --deep-black: #0d0221;
+            --dark-purple: #1a0c3e;
+            --soft-white: #f0f0f0;
+            --glow-blue: rgba(0, 150, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--deep-black);
+            color: var(--soft-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon-blue);
+            animation: float-particle 25s infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(-100vw, 100vh) scale(1.5); opacity: 0; }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            padding: 2rem;
+            border-bottom: 3px solid var(--neon-blue);
+            box-shadow: 0 10px 40px var(--glow-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, var(--neon-blue), transparent);
+            opacity: 0.15;
+            animation: rotate-gradient 20s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-bar {
+            background: rgba(26, 12, 62, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px var(--glow-blue);
+            background: rgba(0, 150, 255, 0.1);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--neon-blue), #0077cc);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px var(--glow-blue); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px var(--glow-blue); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(0, 150, 255, 0.15);
+            border: 2px solid var(--neon-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px var(--glow-blue);
+            animation: badge-float 3s ease-in-out infinite;
+        }
+
+        .badge:nth-child(2) { animation-delay: 0.5s; }
+        .badge:nth-child(3) { animation-delay: 1s; }
+        .badge:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes badge-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, rgba(26, 12, 62, 0.8), rgba(13, 2, 33, 0.9));
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .panel:hover::before {
+            left: 100%;
+        }
+
+        .panel:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 60px var(--glow-blue);
+            transform: translateY(-5px);
+        }
+
+        .panel-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neon-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title::before {
+            content: '🌐';
+            font-size: 1.5rem;
+            animation: globe-spin 4s linear infinite;
+        }
+
+        @keyframes globe-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .simulator-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(0, 150, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--glow-blue);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.3), rgba(0, 255, 242, 0.2));
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px var(--glow-blue);
+        }
+
+        .toggle-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .toggle-desc {
+            font-size: 0.9rem;
+            color: rgba(240, 240, 240, 0.8);
+        }
+
+        .noise-controls {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .noise-slider {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            color: var(--neon-blue);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 150, 255, 0.2);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--glow-blue);
+        }
+
+        .hardware-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spec-card {
+            background: rgba(0, 150, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .spec-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+        }
+
+        .spec-label {
+            font-size: 0.85rem;
+            color: var(--soft-white);
+            margin-top: 0.5rem;
+        }
+
+        .comparison-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .comparison-panel {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .comparison-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .error-types {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .error-card {
+            background: rgba(255, 0, 110, 0.1);
+            border-left: 4px solid var(--neon-pink);
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .error-title {
+            color: var(--neon-pink);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .mitigation-card {
+            background: rgba(6, 255, 165, 0.1);
+            border-left: 4px solid #06ffa5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .mitigation-title {
+            color: #06ffa5;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tutorial-content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-blue);
+            line-height: 1.8;
+        }
+
+        .tutorial-content h3 {
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tutorial-content p {
+            margin-bottom: 1rem;
+            color: rgba(240, 240, 240, 0.9);
+        }
+
+        .highlight {
+            background: rgba(0, 150, 255, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--neon-blue);
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background: rgba(255, 190, 11, 0.1);
+            border: 2px solid var(--neon-yellow);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .warning-box h4 {
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--neon-blue), #0077cc);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 25px var(--glow-blue);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px var(--glow-blue);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 2rem;
+            min-height: 300px;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark-purple), var(--deep-black));
+            border-top: 2px solid var(--neon-blue);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--glow-blue);
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .comparison-view {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="../" class="nav-link">🏠 Home</a>
+            <a href="../level-1-basics/" class="nav-link">Level 1</a>
+            <a href="../level-2-gates/" class="nav-link">Level 2</a>
+            <a href="../level-3-algorithms/" class="nav-link">Level 3</a>
+            <span class="level-badge">Level 4: Real Hardware & Noise</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vkchennuru/qiskit-playground" target="_blank" class="nav-link">⭐ Star on GitHub</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>🌐 Level 4: Real Hardware & Noise</h1>
+        <div class="tagline">Work with Real Quantum Computers</div>
+        <div class="badges">
+            <div class="badge">🖥️ IBM Quantum</div>
+            <div class="badge">📉 Noise Simulation</div>
+            <div class="badge">🛠️ Error Mitigation</div>
+            <div class="badge">⚡ Real Hardware!</div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--neon-blue); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                Created by <strong style="color: var(--neon-cyan);">Venkata Krishnaveni Chennuru</strong><br>
+                SKR & SKR GCW(A), Kadapa
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Progress Tracker -->
+        <div class="panel full-width">
+            <div class="warning-box">
+                <h4>🎯 Advanced Level!</h4>
+                <p>
+                    ✅ Level 1-3 Complete | 🔥 Level 4: Real Hardware (Current) | 
+                    You're 66% through the series - learning about REAL quantum computers!
+                </p>
+            </div>
+        </div>
+
+        <!-- Simulator Selection -->
+        <div class="panel full-width">
+            <div class="panel-title">🎮 Choose Your Simulator</div>
+            
+            <div class="simulator-toggle">
+                <div class="toggle-btn active" onclick="selectSimulator('ideal')">
+                    <div class="toggle-title">💫 Ideal Simulator</div>
+                    <div class="toggle-desc">Perfect qubits, no noise - theoretical maximum</div>
+                </div>
+
+                <div class="toggle-btn" onclick="selectSimulator('noisy')">
+                    <div class="toggle-title">📉 Noisy Simulator</div>
+                    <div class="toggle-desc">Simulates real hardware errors and decoherence</div>
+                </div>
+
+                <div class="toggle-btn" onclick="selectSimulator('real')">
+                    <div class="toggle-title">🖥️ Real Hardware</div>
+                    <div class="toggle-desc">Run on actual IBM quantum computers!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noise Controls -->
+        <div class="panel full-width">
+            <div class="panel-title">🎛️ Noise Configuration</div>
+            
+            <div class="noise-controls">
+                <div class="noise-slider">
+                    <div class="slider-label">
+                        <span>Gate Error Rate</span>
+                        <span id="gateError">0.1%</span>
+                    </div>
+                    <input type="range" min="0" max="5" value="1" step="0.1" 
+                           oninput="updateNoise('gate', this.value)">
+                </div>
+
+                <div class="noise-slider">
+                    <div class="slider-label">
+                        <span>Measurement Error</span>
+                        <span id="measError">1%</span>
+                    </div>
+                    <input type="range" min="0" max="10" value="10" step="0.5"
+                           oninput="updateNoise('measurement', this.value)">
+                </div>
+
+                <div class="noise-slider">
+                    <div class="slider-label">
+                        <span>Decoherence Time (T1)</span>
+                        <span id="t1Time">100 μs</span>
+                    </div>
+                    <input type="range" min="10" max="200" value="100" step="10"
+                           oninput="updateNoise('t1', this.value)">
+                </div>
+
+                <div class="noise-slider">
+                    <div class="slider-label">
+                        <span>Dephasing Time (T2)</span>
+                        <span id="t2Time">80 μs</span>
+                    </div>
+                    <input type="range" min="10" max="150" value="80" step="10"
+                           oninput="updateNoise('t2', this.value)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Hardware Specifications -->
+        <div class="panel full-width">
+            <div class="panel-title">⚙️ Quantum Hardware Specs</div>
+            
+            <div class="hardware-specs">
+                <div class="spec-card">
+                    <div class="spec-value">27</div>
+                    <div class="spec-label">Qubits</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">99.5%</div>
+                    <div class="spec-label">1Q Gate Fidelity</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">97.2%</div>
+                    <div class="spec-label">2Q Gate Fidelity</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">120 μs</div>
+                    <div class="spec-label">T1 Time</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">95 μs</div>
+                    <div class="spec-label">T2 Time</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">98%</div>
+                    <div class="spec-label">Readout Fidelity</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Types -->
+        <div class="panel">
+            <div class="panel-title">❌ Types of Quantum Errors</div>
+            
+            <div class="error-types">
+                <div class="error-card">
+                    <div class="error-title">Gate Errors</div>
+                    <div>Imperfect implementation of quantum gates. Real gates are never perfect!</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">Decoherence (T1)</div>
+                    <div>Qubits lose energy and decay to |0⟩ state over time. Energy relaxation.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">Dephasing (T2)</div>
+                    <div>Qubits lose quantum phase information. Superposition degrades.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">Measurement Errors</div>
+                    <div>Readout mistakes - measuring |0⟩ as |1⟩ or vice versa.</div>
+                </div>
+
+                <div class="error-card">
+                    <div class="error-title">Crosstalk</div>
+                    <div>Qubits unintentionally affect neighboring qubits.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Mitigation -->
+        <div class="panel">
+            <div class="panel-title">🛠️ Error Mitigation Techniques</div>
+            
+            <div class="mitigation-card">
+                <div class="mitigation-title">1. Zero-Noise Extrapolation</div>
+                <div>Run circuits with different noise levels, extrapolate to zero noise.</div>
+            </div>
+
+            <div class="mitigation-card">
+                <div class="mitigation-title">2. Readout Error Correction</div>
+                <div>Calibrate and correct measurement errors using classical post-processing.</div>
+            </div>
+
+            <div class="mitigation-card">
+                <div class="mitigation-title">3. Dynamical Decoupling</div>
+                <div>Insert pulse sequences to protect qubits from decoherence.</div>
+            </div>
+
+            <div class="mitigation-card">
+                <div class="mitigation-title">4. Circuit Optimization</div>
+                <div>Minimize circuit depth and gate count to reduce error accumulation.</div>
+            </div>
+
+            <div class="mitigation-card">
+                <div class="mitigation-title">5. Error Amplification</div>
+                <div>Intentionally amplify errors to measure and correct them.</div>
+            </div>
+        </div>
+
+        <!-- Ideal vs Noisy Comparison -->
+        <div class="panel full-width">
+            <div class="panel-title">📊 Ideal vs Noisy Results</div>
+            
+            <div class="comparison-view">
+                <div class="comparison-panel">
+                    <div class="comparison-title" style="color: #06ffa5;">✨ Ideal Simulation</div>
+                    <div class="chart-area" id="idealChart">
+                        <p style="text-align: center; padding: 2rem; color: #06ffa5;">
+                            Perfect quantum behavior<br>
+                            No errors, pure states<br>
+                            Theoretical maximum fidelity
+                        </p>
+                    </div>
+                </div>
+
+                <div class="comparison-panel">
+                    <div class="comparison-title" style="color: var(--neon-pink);">📉 Noisy/Real Hardware</div>
+                    <div class="chart-area" id="noisyChart">
+                        <p style="text-align: center; padding: 2rem; color: var(--neon-pink);">
+                            Real quantum computer<br>
+                            Errors, decoherence, noise<br>
+                            This is what you get in practice!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="runComparison()">▶️ Run Comparison</button>
+                <button class="btn btn-secondary" onclick="showMitigation()">🛠️ Apply Mitigation</button>
+            </div>
+        </div>
+
+        <!-- Tutorial Content -->
+        <div class="panel full-width">
+            <div class="panel-title">📚 Understanding Real Quantum Computers</div>
+            
+            <div class="tutorial-content">
+                <h3>Why Real Hardware is Different</h3>
+                <p>Up until now, you've been using <span class="highlight">ideal simulators</span> - perfect quantum computers that don't exist in reality!</p>
+                
+                <p><strong>The Challenge:</strong></p>
+                <p>Real quantum computers are <span class="highlight">noisy</span>. They make errors. Qubits <span class="highlight">decohere</span>. 
+                Gates aren't perfect. This is the biggest challenge in quantum computing today!</p>
+                
+                <p><strong>Why Errors Happen:</strong></p>
+                <p>• <span class="highlight">Tiny</span> - Qubits are nanoscale and ultra-sensitive<br>
+                • <span class="highlight">Fragile</span> - Quantum states collapse easily<br>
+                • <span class="highlight">Cold</span> - Must be near absolute zero (0.015 K!)<br>
+                • <span class="highlight">Isolated</span> - Any interaction causes errors</p>
+                
+                <p><strong>Current Technology:</strong></p>
+                <p>IBM Quantum computers achieve about <span class="highlight">99.5% fidelity</span> on single-qubit gates and 
+                <span class="highlight">97% fidelity</span> on two-qubit gates. That sounds good, but with 100 gates, 
+                you're down to 60% fidelity!</p>
+                
+                <p><strong>The Path Forward:</strong></p>
+                <p>1. <span class="highlight">Error Mitigation</span> - Classical techniques to reduce errors<br>
+                2. <span class="highlight">Error Correction</span> - Use multiple physical qubits per logical qubit<br>
+                3. <span class="highlight">Better Hardware</span> - Longer coherence times, higher fidelities<br>
+                4. <span class="highlight">Optimized Circuits</span> - Minimize depth and operations</p>
+                
+                <div class="warning-box">
+                    <h4>⚠️ NISQ Era</h4>
+                    <p>We're in the <span class="highlight">NISQ</span> (Noisy Intermediate-Scale Quantum) era. 
+                    Quantum computers exist, but they're noisy and have limited qubits (50-100). 
+                    Full error correction isn't practical yet. This means we need clever algorithms 
+                    that work despite noise!</p>
+                </div>
+                
+                <p><strong>What You Can Do:</strong></p>
+                <p>• Keep circuits <span class="highlight">short</span> - fewer gates = fewer errors<br>
+                • Use <span class="highlight">error mitigation</span> techniques<br>
+                • Design <span class="highlight">noise-robust</span> algorithms<br>
+                • <span class="highlight">Calibrate</span> and characterize hardware<br>
+                • Apply <span class="highlight">post-processing</span> corrections</p>
+                
+                <p><strong>The Reality:</strong></p>
+                <p>Real quantum computers are messy! But they're getting better every year. 
+                Understanding noise and errors is <span class="highlight">essential</span> for 
+                practical quantum computing!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Created by Venkata Krishnaveni Chennuru</h3>
+            <p style="color: var(--soft-white); margin: 1rem 0;">
+                Faculty, Department of Computer Science<br>
+                SKR & SKR Government College for Women (Autonomous)<br>
+                Kadapa, Andhra Pradesh, India
+            </p>
+            <p style="color: var(--soft-white); opacity: 0.8; margin: 1rem 0;">
+                Level 4 of the Qiskit Quantum Playground Series<br>
+                An Open Educational Resource for students worldwide
+            </p>
+            
+            <div class="footer-links">
+                <a href="mailto:vkchennuru.cs@gmail.com">📧 Email</a>
+                <a href="https://github.com/vkchennuru" target="_blank">🐙 GitHub</a>
+                <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888" target="_blank">💼 LinkedIn</a>
+                <a href="../">🏠 Back to Main</a>
+            </div>
+
+            <p style="color: rgba(240, 240, 240, 0.6); margin-top: 2rem; font-size: 0.9rem;">
+                Licensed under MIT License | Educational content under CC BY 4.0<br>
+                Free to use, modify, and share • Give credit when sharing
+            </p>
+
+            <p style="color: var(--neon-blue); margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">
+                "Understanding reality, one noisy qubit at a time!" 🌐⚡
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let currentSimulator = 'ideal';
+        let noiseConfig = {
+            gateError: 0.1,
+            measurementError: 1.0,
+            t1: 100,
+            t2: 80
+        };
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function selectSimulator(type) {
+            currentSimulator = type;
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.toggle-btn').classList.add('active');
+            
+            let message = '';
+            if (type === 'ideal') {
+                message = '💫 Ideal Simulator Selected\n\nPerfect qubits with no errors. This shows what quantum computers SHOULD do in theory!';
+            } else if (type === 'noisy') {
+                message = '📉 Noisy Simulator Selected\n\nSimulates realistic errors from actual quantum hardware. Adjust noise parameters to see effects!';
+            } else {
+                message = '🖥️ Real Hardware Selected\n\nIn production, this would connect to IBM Quantum computers!\n\nYou would need an IBM Quantum account and would submit jobs to real quantum processors. Results take minutes to hours depending on queue!';
+            }
+            
+            alert(message);
+        }
+
+        function updateNoise(type, value) {
+            if (type === 'gate') {
+                noiseConfig.gateError = parseFloat(value);
+                document.getElementById('gateError').textContent = value + '%';
+            } else if (type === 'measurement') {
+                noiseConfig.measurementError = parseFloat(value);
+                document.getElementById('measError').textContent = value + '%';
+            } else if (type === 't1') {
+                noiseConfig.t1 = parseInt(value);
+                document.getElementById('t1Time').textContent = value + ' μs';
+            } else if (type === 't2') {
+                noiseConfig.t2 = parseInt(value);
+                document.getElementById('t2Time').textContent = value + ' μs';
+            }
+        }
+
+        function runComparison() {
+            let message = '🚀 Running Circuit Comparison!\n\n';
+            message += 'Simulator: ' + currentSimulator.toUpperCase() + '\n\n';
+            
+            if (currentSimulator === 'ideal') {
+                message += '✨ IDEAL RESULTS:\n';
+                message += '• Bell State: 50% |00⟩, 50% |11⟩\n';
+                message += '• Perfect entanglement\n';
+                message += '• No errors!\n';
+            } else if (currentSimulator === 'noisy') {
+                message += '📉 NOISY RESULTS:\n';
+                message += '• Bell State: 45% |00⟩, 45% |11⟩, 5% |01⟩, 5% |10⟩\n';
+                message += '• Errors visible!\n';
+                message += '• Gate error: ' + noiseConfig.gateError + '%\n';
+                message += '• Measurement error: ' + noiseConfig.measurementError + '%\n';
+            } else {
+                message += '🖥️ REAL HARDWARE:\n';
+                message += 'Would submit to IBM Quantum\n';
+                message += 'Results in ~30-60 minutes\n';
+                message += 'Similar to noisy simulation\n';
+            }
+            
+            alert(message);
+        }
+
+        function showMitigation() {
+            alert('🛠️ Error Mitigation Techniques\n\n' +
+                  '1. Readout Error Correction\n' +
+                  '   - Calibrate measurement errors\n' +
+                  '   - Apply classical correction matrix\n' +
+                  '   - Improvement: ~10-20%\n\n' +
+                  '2. Zero-Noise Extrapolation\n' +
+                  '   - Run at multiple noise levels\n' +
+                  '   - Extrapolate to zero\n' +
+                  '   - Improvement: ~30-50%\n\n' +
+                  '3. Dynamical Decoupling\n' +
+                  '   - Insert protective pulses\n' +
+                  '   - Extend coherence time\n' +
+                  '   - Improvement: 2-3x coherence\n\n' +
+                  'In production, these techniques can significantly improve results!');
+        }
+
+        window.onload = function() {
+            createParticles();
+        };
+    </script>
+</body>
+</html>
