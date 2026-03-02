@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qiskit Quantum Playground</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-
 <style>
 :root{
     --neon-cyan:#00fff2;
@@ -17,9 +15,7 @@
     --dark-purple:#1a0c3e;
     --soft-white:#f0f0f0;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
     font-family:'Space Grotesk',sans-serif;
     background:var(--deep-black);
@@ -28,22 +24,12 @@ body{
 }
 
 /* PARTICLES */
-.particles{
-    position:fixed;
-    width:100%;
-    height:100%;
-    z-index:-1;
-}
-
+.particles{position:fixed;width:100%;height:100%;z-index:-1;}
 .particle{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:var(--neon-cyan);
-    border-radius:50%;
+    position:absolute;width:3px;height:3px;
+    background:var(--neon-cyan);border-radius:50%;
     animation:float 20s infinite;
 }
-
 @keyframes float{
     0%{transform:translateY(0);opacity:0;}
     10%{opacity:1;}
@@ -57,7 +43,6 @@ header{
     text-align:center;
     border-bottom:3px solid var(--neon-cyan);
 }
-
 h1{
     font-size:3.5rem;
     background:linear-gradient(45deg,var(--neon-cyan),var(--neon-pink),var(--neon-purple));
@@ -65,24 +50,31 @@ h1{
     -webkit-text-fill-color:transparent;
     margin-bottom:1rem;
 }
+.subtitle{font-size:1.3rem;color:var(--neon-yellow);}
+.author{margin-top:1rem;font-family:'Fira Code',monospace;color:var(--neon-cyan);}
 
-.subtitle{
-    font-size:1.3rem;
-    color:var(--neon-yellow);
-}
-
-.author{
-    margin-top:1rem;
+/* VISITOR COUNTER BAR */
+.visitor-bar{
+    background:rgba(26,12,62,0.7);
+    border-bottom:1px solid rgba(131,56,236,0.4);
+    text-align:center;
+    padding:0.7rem 1rem;
     font-family:'Fira Code',monospace;
+    font-size:0.9rem;
+    color:#aaa;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:0.5rem;
+}
+#visit-count{
     color:var(--neon-cyan);
+    font-weight:700;
+    font-size:1rem;
 }
 
 /* CONTAINER */
-.container{
-    max-width:1300px;
-    margin:0 auto;
-    padding:3rem 2rem;
-}
+.container{max-width:1300px;margin:0 auto;padding:3rem 2rem;}
 
 /* INTRO */
 .intro{
@@ -93,36 +85,20 @@ h1{
     border:2px solid var(--neon-purple);
     margin-bottom:3rem;
 }
-.badges {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
+.badges{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
+.badge{
+    background:rgba(0,255,242,0.1);
+    border:2px solid var(--neon-cyan);
+    padding:0.6rem 1.2rem;
+    border-radius:25px;
+    font-family:'Fira Code',monospace;
+    font-size:0.9rem;
+    transition:0.3s ease;
 }
+.badge:hover{background:var(--neon-cyan);color:var(--deep-black);}
 
-.badge {
-    background: rgba(0, 255, 242, 0.1);
-    border: 2px solid var(--neon-cyan);
-    padding: 0.6rem 1.2rem;
-    border-radius: 25px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-    transition: 0.3s ease;
-}
-
-.badge:hover {
-    background: var(--neon-cyan);
-    color: var(--deep-black);
-}
 /* LEVEL GRID */
-.levels-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:2rem;
-}
-
-/* CARD */
+.levels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;}
 .level-card{
     background:linear-gradient(135deg,rgba(26,12,62,0.8),rgba(13,2,33,0.9));
     border:2px solid var(--neon-purple);
@@ -130,39 +106,14 @@ h1{
     padding:2rem;
     transition:0.3s;
 }
-
 .level-card:hover{
     transform:translateY(-8px);
     border-color:var(--neon-cyan);
     box-shadow:0 15px 60px rgba(0,255,242,0.3);
 }
-
-.level-number{
-    font-size:2.5rem;
-    color:var(--neon-cyan);
-    font-weight:700;
-}
-
-.level-title{
-    font-size:1.6rem;
-    color:var(--neon-yellow);
-    margin:1rem 0;
-}
-
-.level-description{
-    margin-bottom:1rem;
-    line-height:1.6;
-}
-
-.level-features{
-    list-style:none;
-    margin-bottom:1.5rem;
-}
-
-.level-features li{
-    margin-bottom:0.5rem;
-}
-
+.level-number{font-size:2.5rem;color:var(--neon-cyan);font-weight:700;}
+.level-title{font-size:1.6rem;color:var(--neon-yellow);margin:1rem 0;}
+.level-description{margin-bottom:1rem;line-height:1.6;}
 .level-btn{
     display:inline-block;
     padding:0.8rem 1.5rem;
@@ -173,10 +124,7 @@ h1{
     font-weight:700;
     transition:0.3s;
 }
-
-.level-btn:hover{
-    transform:translateY(-3px);
-}
+.level-btn:hover{transform:translateY(-3px);}
 
 /* FOOTER */
 footer{
@@ -186,129 +134,130 @@ footer{
     border-top:2px solid var(--neon-cyan);
     text-align:center;
 }
+footer h3{color:var(--neon-cyan);margin-bottom:1rem;}
+.footer-links{margin:1.5rem 0;}
+.footer-links a{margin:0 15px;text-decoration:none;color:var(--neon-yellow);}
+.footer-links a:hover{color:var(--neon-cyan);}
 
-footer h3{
-    color:var(--neon-cyan);
-    margin-bottom:1rem;
-}
-
-.footer-links{
-    margin:1.5rem 0;
-}
-
-.footer-links a{
-    margin:0 15px;
-    text-decoration:none;
-    color:var(--neon-yellow);
-}
-
-.footer-links a:hover{
-    color:var(--neon-cyan);
-}
-
-@media(max-width:768px){
-    h1{font-size:2.3rem;}
-}
+@media(max-width:768px){h1{font-size:2.3rem;}}
 </style>
 </head>
-
 <body>
 
 <div class="particles" id="particles"></div>
 
 <header>
-    <h1>⚛️ Qiskit Quantum Playground</h1>
-    <p class="subtitle">Complete Interactive Learning Series</p>
-    <p class="author">Created by <strong>Venkata Krishnaveni Chennuru</strong></p>
+  <h1>⚛️ Qiskit Quantum Playground</h1>
+  <p class="subtitle">Complete Interactive Learning Series</p>
+  <p class="author">Created by <strong>Venkata Krishnaveni Chennuru</strong></p>
 </header>
+
+<!-- VISITOR COUNTER -->
+<div class="visitor-bar">
+  👥 Total Visitors: &nbsp;<span id="visit-count">…</span>
+</div>
 
 <div class="container">
 
-<div class="intro">
+  <div class="intro">
     <p>Progress through 6 carefully designed levels — from beginner to quantum mastery.</p>
-
     <div class="badges">
-       <div class="badge">📘 Structured 6-Level Curriculum</div>
-       <div class="badge">⚛️ Hands-on Quantum Circuits</div>
-       <div class="badge">🧠 Concept-to-Capstone Learning</div>
-       <div class="badge">🆓 Open Educational Resource</div>
-       <div class="badge">🚀 Real Quantum Applications</div>
+      <div class="badge">📘 Structured 6-Level Curriculum</div>
+      <div class="badge">⚛️ Hands-on Quantum Circuits</div>
+      <div class="badge">🧠 Concept-to-Capstone Learning</div>
+      <div class="badge">🆓 Open Educational Resource</div>
+      <div class="badge">🚀 Real Quantum Applications</div>
     </div>
-</div>
+  </div>
 
-<div class="levels-grid">
+  <div class="levels-grid">
 
     <div class="level-card">
-        <div class="level-number">Level 1</div>
-        <h3 class="level-title">🌟 Quantum Basics</h3>
-        <p class="level-description">Foundations of qubits, superposition and entanglement.</p>
-        <a href="level-1-basics/" class="level-btn">Start Level 1</a>
-    </div>
-
-    <div class="level-card">
-        <div class="level-number">Level 2</div>
-        <h3 class="level-title">⚡ Quantum Gates</h3>
-        <p class="level-description">Master core gates, phase and multi-qubit circuits.</p>
-        <a href="level-2-gates/" class="level-btn">Start Level 2</a>
+      <div class="level-number">Level 1</div>
+      <h3 class="level-title">🌟 Quantum Basics</h3>
+      <p class="level-description">Foundations of qubits, superposition and entanglement.</p>
+      <a href="level-1-basics/" class="level-btn">Start Level 1</a>
     </div>
 
     <div class="level-card">
-        <div class="level-number">Level 3</div>
-        <h3 class="level-title">🚀 Quantum Algorithms</h3>
-        <p class="level-description">Grover, QFT and algorithm visualization.</p>
-        <a href="level-3-algorithms/" class="level-btn">Start Level 3</a>
+      <div class="level-number">Level 2</div>
+      <h3 class="level-title">⚡ Quantum Gates</h3>
+      <p class="level-description">Master core gates, phase and multi-qubit circuits.</p>
+      <a href="level-2-gates/" class="level-btn">Start Level 2</a>
     </div>
 
     <div class="level-card">
-        <div class="level-number">Level 4</div>
-        <h3 class="level-title">🌐 Real Hardware</h3>
-        <p class="level-description">Noise models and execution on real quantum devices.</p>
-        <a href="level-4-advanced/" class="level-btn">Start Level 4</a>
+      <div class="level-number">Level 3</div>
+      <h3 class="level-title">🚀 Quantum Algorithms</h3>
+      <p class="level-description">Grover, QFT and algorithm visualization.</p>
+      <a href="level-3-algorithms/" class="level-btn">Start Level 3</a>
     </div>
 
     <div class="level-card">
-        <div class="level-number">Level 5</div>
-        <h3 class="level-title">🧬 Quantum Applications</h3>
-        <p class="level-description">VQE, QAOA, cryptography and real-world impact.</p>
-        <a href="level-5-applications/" class="level-btn">Start Level 5</a>
+      <div class="level-number">Level 4</div>
+      <h3 class="level-title">🌐 Real Hardware</h3>
+      <p class="level-description">Noise models and execution on real quantum devices.</p>
+      <a href="level-4-advanced/" class="level-btn">Start Level 4</a>
     </div>
 
     <div class="level-card">
-        <div class="level-number">Level 6</div>
-        <h3 class="level-title">🎓 Final Capstone</h3>
-        <p class="level-description">Complete your journey with an integrated quantum project.</p>
-        <a href="level-6-capstone/" class="level-btn">Start Capstone</a>
+      <div class="level-number">Level 5</div>
+      <h3 class="level-title">🧬 Quantum Applications</h3>
+      <p class="level-description">VQE, QAOA, cryptography and real-world impact.</p>
+      <a href="level-5-applications/" class="level-btn">Start Level 5</a>
     </div>
 
-</div>
+    <div class="level-card">
+      <div class="level-number">Level 6</div>
+      <h3 class="level-title">🎓 Final Capstone</h3>
+      <p class="level-description">Complete your journey with an integrated quantum project.</p>
+      <a href="level-6-capstone/" class="level-btn">Start Capstone</a>
+    </div>
+
+  </div>
+
+</div><!-- /container -->
+
 <footer>
-<h3>Created by Venkata Krishnaveni Chennuru</h3>
-<p>Faculty, Department of Computer Science</p>
-<p>SKR & SKR Government College for Women (Autonomous), Kadapa, India</p>
-<p>An Open Educational Resource for learners worldwide</p>
-
-<div class="footer-links">
-<a href="mailto:vkchennuru.cs@gmail.com">Email</a>
-<a href="https://github.com/vkchennuru">GitHub</a>
-<a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888">LinkedIn</a>
-</div>
-
-<p>© 2025 Venkata Krishnaveni Chennuru</p>
+  <h3>Created by Venkata Krishnaveni Chennuru</h3>
+  <p>Faculty, Department of Computer Science</p>
+  <p>SKR & SKR Government College for Women (Autonomous), Kadapa, India</p>
+  <p>An Open Educational Resource for learners worldwide</p>
+  <div class="footer-links">
+    <a href="mailto:vkchennuru.cs@gmail.com">Email</a>
+    <a href="https://github.com/vkchennuru">GitHub</a>
+    <a href="https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888">LinkedIn</a>
+  </div>
+  <p>© 2025 Venkata Krishnaveni Chennuru</p>
 </footer>
 
 <script>
+// ── Particles ──
 function createParticles(){
-const container=document.getElementById('particles');
-for(let i=0;i<40;i++){
-const p=document.createElement('div');
-p.className='particle';
-p.style.left=Math.random()*100+'%';
-p.style.top=Math.random()*100+'%';
-p.style.animationDuration=(10+Math.random()*10)+'s';
-container.appendChild(p);
+  const container = document.getElementById('particles');
+  for(let i = 0; i < 40; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top  = Math.random() * 100 + '%';
+    p.style.animationDuration = (10 + Math.random() * 10) + 's';
+    p.style.animationDelay    = (Math.random() * 10) + 's';
+    container.appendChild(p);
+  }
 }
-}
-window.onload=createParticles;
+createParticles();
+
+// ── Visitor Counter ──
+// countapi.xyz is free, requires no signup, and works on any domain.
+// Each unique namespace+key combo is a separate counter — yours is locked to this key.
+fetch('https://api.countapi.xyz/hit/vkchennuru-qiskit-playground/visits')
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('visit-count').textContent = data.value.toLocaleString();
+  })
+  .catch(() => {
+    document.getElementById('visit-count').textContent = '—';
+  });
 </script>
 
 </body>
