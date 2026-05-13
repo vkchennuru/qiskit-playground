@@ -152,10 +152,7 @@ footer h3{color:var(--neon-cyan);margin-bottom:1rem;}
   <p class="author">Created by <strong>Venkata Krishnaveni Chennuru</strong></p>
 </header>
 
-<!-- VISITOR COUNTER -->
-<div class="visitor-bar">
-  👥 Total Visitors: &nbsp;<span id="visit-count">…</span>
-</div>
+
 
 <div class="container">
 
@@ -250,6 +247,10 @@ createParticles();
 // ── Visitor Counter ──
 // countapi.xyz is free, requires no signup, and works on any domain.
 // Each unique namespace+key combo is a separate counter — yours is locked to this key.
+    <!-- VISITOR COUNTER -->
+<div class="visitor-bar">
+  👥 Total Visitors: &nbsp;<span id="visit-count">…</span>
+</div>
 fetch('https://api.countapi.xyz/hit/vkchennuru-qiskit-playground/visits')
   .then(r => r.json())
   .then(data => {
