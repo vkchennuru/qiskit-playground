@@ -324,6 +324,15 @@ See [CITATION.cff](CITATION.cff) for structured citation format.
 ![Quantum](https://img.shields.io/badge/Field-Quantum%20Computing-purple)
 
 ---
+## Educational Content License
+
+The tutorials, lesson materials, educational explanations, and documentation
+included in this project are shared under the Creative Commons Attribution
+4.0 International License (CC BY 4.0).
+
+Software source code is licensed under the MIT License.
+
+---
 
 ## 🗺️ Roadmap
 
