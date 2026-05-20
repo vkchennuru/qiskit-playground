@@ -10,7 +10,7 @@ tags:
   - quantum circuits
 authors:
   - name: Venkata Krishnaveni Chennuru
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-2209-483X
     affiliation: 1
 affiliations:
  - name: Department of Computer Science, SKR & SKR Government College for Women (Autonomous), Kadapa, Andhra Pradesh, India
