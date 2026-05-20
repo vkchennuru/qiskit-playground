@@ -224,6 +224,31 @@ additions of new tutorial content, translations into languages other than Englis
 integration with other quantum frameworks, thereby extending its reach and longevity beyond
 the initial author.
 
+# Research impact statement
+
+Qiskit Quantum Playground contributes to quantum computing education by
+providing a comprehensive, structured, and accessible learning platform for
+students, educators, and self-learners. The project addresses the growing
+need for beginner-friendly educational resources in quantum computing by
+combining theoretical concepts, interactive circuit exploration, and
+hands-on Qiskit-based learning within a progressive six-level curriculum.
+
+The platform supports concept-to-capstone learning, enabling learners to
+advance systematically from foundational quantum principles to real-world
+applications such as quantum algorithms, quantum hardware understanding,
+optimization techniques, and quantum cryptography. By integrating practical
+experimentation with guided pedagogy, the project reduces barriers to entry
+for learners who may not have access to specialized quantum computing
+infrastructure or formal training environments.
+
+As an open educational resource, the software promotes inclusive and
+self-paced quantum education for a global audience. The project also
+supports classroom teaching, curriculum enhancement, workshop-based
+training, and introductory research preparation in emerging quantum
+technologies. Through its interactive and modular design, Qiskit Quantum
+Playground aims to strengthen quantum literacy and encourage wider
+participation in quantum computing education and research.
+
 # AI Usage Disclosure
 
 No AI-assisted writing or code-generation tools were used in the preparation of this
