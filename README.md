@@ -255,6 +255,8 @@ Kadapa, Andhra Pradesh, India
 - 📧 **Email:** [vkchennuru.cs@gmail.com](mailto:vkchennuru.cs@gmail.com)
 - 🐙 **GitHub:** [github.com/vkchennuru](https://github.com/vkchennuru)
 - 💼 **LinkedIn:** [Venkata Krishnaveni Chennuru](https://www.linkedin.com/in/venkata-krishnaveni-chennuru-07057888)
+- 🆔 **ORCID:** [Venkata Krishnaveni Chennuru](https://orcid.org/0000-0003-2209-483X)
+  
 
 ### Support
 
